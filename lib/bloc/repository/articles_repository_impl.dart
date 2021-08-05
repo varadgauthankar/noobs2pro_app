@@ -23,11 +23,10 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
         }
         return articlesList;
       } else {
-        Exception('failed');
+        throw Exception('failed');
       }
     } catch (e) {
-      Exception(e);
+      throw Exception(e);
     }
-    throw UnimplementedError();
   }
 }

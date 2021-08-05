@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/bloc/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/bloc/repository/articles_repository_impl.dart';
 import 'package:noobs2pro_app/models/models.dart';
+import 'package:noobs2pro_app/utils/helpers.dart';
+import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,13 +31,14 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocProvider(
         create: (context) => _articlesBloc,
+        // ignore: avoid_unnecessary_containers
         child: Container(
           child: BlocBuilder<ArticlesBloc, ArticlesState>(
               builder: (context, state) {
             if (state is ArticlesFetchError) {
-              return const Text('error');
+              return const Text('err');
             } else if (state is ArticlesFetchLoading) {
-              return const Text('Loading');
+              return const CenteredCircularProgressBar();
             } else if (state is ArticlesFetchComplete) {
               return buildListOfArticles(state.articles, screenDimention);
             }
