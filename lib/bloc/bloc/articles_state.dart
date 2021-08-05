@@ -12,4 +12,7 @@ class ArticlesFetchComplete extends ArticlesState {
   ArticlesFetchComplete(this.articles);
 }
 
-class ArticlesFetchError extends ArticlesState {}
+class ArticlesFetchError extends ArticlesState {
+  final String error;
+  ArticlesFetchError(this.error);
+}
