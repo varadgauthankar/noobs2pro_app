@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noobs2pro_app/blocs/articles_bloc/bloc/articles_bloc.dart';
-import 'package:noobs2pro_app/blocs/articles_bloc/repository/articles_repository_impl.dart';
+import 'package:noobs2pro_app/bloc/bloc/articles_bloc.dart';
+import 'package:noobs2pro_app/bloc/repository/articles_repository_impl.dart';
 import 'package:noobs2pro_app/models/models.dart';
+import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
-import 'package:noobs2pro_app/widgets/home_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,27 +14,47 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ArticlesBloc _articlesBloc = ArticlesBloc(ArticlesRepositoryImpl());
+
   @override
   void initState() {
     super.initState();
+    _articlesBloc.add(FetchArticlesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    final Size _screenDimention = MediaQuery.of(context).size;
+    final Size screenDimention = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Home'),
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
+      body: BlocProvider(
+        create: (context) => _articlesBloc,
+        // ignore: avoid_unnecessary_containers
+        child: Container(
+          child: BlocBuilder<ArticlesBloc, ArticlesState>(
+              builder: (context, state) {
+            if (state is ArticlesFetchError) {
+              return const Text('err');
+            } else if (state is ArticlesFetchLoading) {
+              return const CenteredCircularProgressBar();
+            } else if (state is ArticlesFetchComplete) {
+              return buildListOfArticles(state.articles, screenDimention);
+            }
+            return const Text('ehahah');
+          }),
         ),
-        body: Text('g'));
+      ),
+    );
   }
 }
 
-Widget buildListOfArticles(List<Article> _articles, Size _screenDimention) {
+Widget buildListOfArticles(List<Article> articles, Size screenDimention) {
   return ListView.builder(
-      itemCount: _articles.length,
+      itemCount: articles.length,
       itemBuilder: (context, index) {
-        final Article _article = _articles[index];
-        return HomeCard(_article, _screenDimention);
+        final Article article = articles[index];
+        return Text(article.title ?? '');
       });
 }
