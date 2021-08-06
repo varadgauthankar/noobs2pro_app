@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:noobs2pro_app/bloc/repository/articles_repository.dart';
+import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository.dart';
 import 'package:noobs2pro_app/models/article.dart';
 
 part 'articles_event.dart';
