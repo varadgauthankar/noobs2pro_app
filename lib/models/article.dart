@@ -1,3 +1,5 @@
+import 'package:noobs2pro_app/models/models.dart';
+
 class Article {
   int? id;
   String? date;
@@ -6,7 +8,7 @@ class Article {
   String? title;
   String? content;
   String? excerpt;
-  int? featuredMedia;
+  int? featuredMediaId;
   List<int>? categories;
 
   Article({
@@ -17,7 +19,7 @@ class Article {
     this.title,
     this.content,
     this.excerpt,
-    this.featuredMedia,
+    this.featuredMediaId,
     this.categories,
   });
 
@@ -30,6 +32,7 @@ class Article {
     content = json['content']['rendered'] as String;
     excerpt = json['excerpt']['rendered'] as String;
     categories = json['categories'].cast<int>() as List<int>;
+    featuredMediaId = json['featured_media'] as int;
   }
 
   Map<String, dynamic> toJson() {
@@ -41,7 +44,7 @@ class Article {
     data['title'] = title;
     data['content'] = content;
     data['excerpt'] = excerpt;
-    data['featured_media'] = featuredMedia;
+    data['featured_media'] = featuredMediaId;
     data['categories'] = categories;
 
     return data;
