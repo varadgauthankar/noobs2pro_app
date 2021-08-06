@@ -16,7 +16,6 @@ class MediaRepositoryImpl implements MediaReposiotry {
         final mediaJson = jsonDecode(response.body);
 
         final Media media = Media.fromJson(mediaJson as Map<String, dynamic>);
-
         return media;
       } else {
         throw Exception('failed');

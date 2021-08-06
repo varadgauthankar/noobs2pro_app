@@ -1,5 +1,6 @@
 part of 'media_bloc.dart';
 
+@immutable
 abstract class MediaState {}
 
 class MediaStateInitial extends MediaState {}

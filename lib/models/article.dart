@@ -30,6 +30,7 @@ class Article {
     content = json['content']['rendered'] as String;
     excerpt = json['excerpt']['rendered'] as String;
     categories = json['categories'].cast<int>() as List<int>;
+    featuredMedia = json['featured_media'] as int;
   }
 
   Map<String, dynamic> toJson() {
