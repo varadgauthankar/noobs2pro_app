@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/media_fetch/bloc/media_bloc.dart';
 import 'package:noobs2pro_app/blocs/media_fetch/repository/media_repository_impl.dart';
 import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 
 class HomeCard extends StatefulWidget {
@@ -63,7 +64,7 @@ class _HomeCardState extends State<HomeCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget._article.date!),
+                  Text(getFormattedDate(widget._article.date!)),
                   Wrap(
                     children: [
                       IconButton(
