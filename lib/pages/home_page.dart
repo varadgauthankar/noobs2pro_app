@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
-import 'package:noobs2pro_app/blocs/media_fetch/bloc/media_bloc.dart';
-import 'package:noobs2pro_app/blocs/media_fetch/repository/media_repository_impl.dart';
 import 'package:noobs2pro_app/models/models.dart';
-import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 import 'package:noobs2pro_app/widgets/home_card.dart';
 
