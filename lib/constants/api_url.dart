@@ -1,9 +1,12 @@
-const String baseUrl = 'https://www.noobs2pro.com/wp-json/wp/v2';
+const String baseUrl = 'noobs2pro.com';
 
-const String allPosts = '/posts?per_page=100';
+const String allPostsEndpoint = 'wp-json/wp/v2/posts';
 
-const String allCategories = '/categories?per_page=100';
+const String categories = 'wp-json/wp/v2/categories';
+
 const String getPostsByCategoryId =
     '/posts?per_page=100&categories='; //give category id after =
 
-const String getMedia = '/media/';
+const String getMediaEndpoint = 'wp-json/wp/v2/media';
+
+const Map<String, dynamic> perPage100 = {'per_page': '100', '_embed': ''};
