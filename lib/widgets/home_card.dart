@@ -2,68 +2,65 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/models/models.dart';
+import 'package:noobs2pro_app/pages/article_apge.dart';
+import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
+import 'package:html_unescape/html_unescape_small.dart';
 
 class HomeCard extends StatelessWidget {
   final Article _article;
   final Size _screenDimention;
-  const HomeCard(
+  HomeCard(
     this._article,
     this._screenDimention, {
     Key? key,
   }) : super(key: key);
 
+  HtmlUnescape unEscapedString = HtmlUnescape();
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(6.0),
+      padding: const EdgeInsets.all(6.0),
       child: InkWell(
         borderRadius: BorderRadius.circular(8.0),
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ArticlePage(
+                  _article,
+                  screenDimention: _screenDimention,
+                ),
+              ));
+        },
         child: Container(
           padding: const EdgeInsets.all(6.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CachedNetworkImage(
-                fit: BoxFit.fill,
-                imageUrl: _article.featuredMedia!.medium!,
-                placeholder: (context, url) => Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage('assets/placeholder.png'),
-                    ),
-                  ),
-                ),
-                imageBuilder: (context, image) => Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: image,
-                    ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage('assets/placeholder.png'),
-                    ),
-                  ),
+              Hero(
+                tag: 'image${_article.id}',
+                child: CachedNetworkImage(
+                  fit: BoxFit.fill,
+                  imageUrl: _article.featuredMedia!.medium!,
+                  placeholder: (context, url) => buildPlaceholderImage(),
+                  imageBuilder: (context, image) => buildNetworkImage(image),
+                  errorWidget: (context, url, error) => buildPlaceholderImage(),
                 ),
               ),
-              Text(
-                _article.title!,
-                style: articleTitle,
-                textAlign: TextAlign.left,
+              spacer(height: 6.0),
+              Hero(
+                tag: 'title${_article.id}',
+                child: Material(
+                  color: ktransparent,
+                  child: Text(
+                    unEscapedString.convert(_article.title!),
+                    style: articleTitle,
+                    textAlign: TextAlign.left,
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,10 +71,12 @@ class HomeCard extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.bookmark_border_rounded),
                         onPressed: () {},
+                        visualDensity: VisualDensity.compact,
                       ),
                       IconButton(
                         icon: const Icon(Icons.share_outlined),
                         onPressed: () {},
+                        visualDensity: VisualDensity.compact,
                       ),
                     ],
                   )
@@ -90,29 +89,27 @@ class HomeCard extends StatelessWidget {
     );
   }
 
-  Widget buildPlaceholderImage() {
+  Widget buildNetworkImage(ImageProvider<Object> image) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12.0),
       height: 200,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        image: const DecorationImage(
+        borderRadius: BorderRadius.circular(12),
+        image: DecorationImage(
           fit: BoxFit.fill,
-          image: AssetImage('assets/placeholder.png'),
+          image: image,
         ),
       ),
     );
   }
 
-  Widget buildNetworkImage(String imageUrl) {
+  Widget buildPlaceholderImage() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12.0),
       height: 200,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        image: DecorationImage(
+        borderRadius: BorderRadius.circular(12),
+        image: const DecorationImage(
           fit: BoxFit.fill,
-          image: CachedNetworkImageProvider(imageUrl),
+          image: AssetImage('assets/placeholder.png'),
         ),
       ),
     );

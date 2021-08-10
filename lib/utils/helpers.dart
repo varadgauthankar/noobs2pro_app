@@ -21,3 +21,10 @@ String getFormattedDate(String dateString) {
     return DateFormat('dd MMM, yyyy').format(dateTimeFromString);
   }
 }
+
+Widget spacer({double height = 0, double width = 0}) {
+  return SizedBox(
+    height: height,
+    width: width,
+  );
+}
