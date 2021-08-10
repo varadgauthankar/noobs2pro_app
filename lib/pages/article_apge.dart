@@ -6,6 +6,7 @@ import 'package:noobs2pro_app/models/models.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
+import 'package:noobs2pro_app/widgets/images.dart';
 
 class ArticlePage extends StatelessWidget {
   final Size? screenDimention;
@@ -24,82 +25,73 @@ class ArticlePage extends StatelessWidget {
       body: ListView(
         // padding: const EdgeInsets.all(12.0),
         children: [
-          Hero(
-            tag: 'image${_article.id}',
-            child: CachedNetworkImage(
-              fit: BoxFit.fill,
-              imageUrl: _article.featuredMedia!.medium!,
-              placeholder: (context, url) => buildPlaceholderImage(),
-              imageBuilder: (context, image) => buildNetworkImage(image),
-              errorWidget: (context, url, error) => buildPlaceholderImage(),
+          Container(
+            padding: const EdgeInsets.all(6.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Hero(
+                  tag: 'image${_article.id}',
+                  child: CachedNetworkImage(
+                    fit: BoxFit.fill,
+                    imageUrl: _article.featuredMedia!.medium!,
+                    placeholder: (context, url) => buildPlaceholderImage(),
+                    imageBuilder: (context, image) => buildNetworkImage(image),
+                    errorWidget: (context, url, error) =>
+                        buildPlaceholderImage(),
+                  ),
+                ),
+                spacer(height: 6.0),
+                Hero(
+                  tag: 'title${_article.id}',
+                  child: Material(
+                    color: ktransparent,
+                    child: Text(
+                      unEscapedString.convert(_article.title!),
+                      style: articleTitle,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+                spacer(height: 6.0),
+                Text(getFormattedDate(_article.date!))
+              ],
             ),
           ),
-          spacer(height: 6.0),
-          Hero(
-            tag: 'title${_article.id}',
-            child: Material(
-              color: ktransparent,
-              child: Text(
-                unEscapedString.convert(_article.title!),
-                style: articleTitle,
-                textAlign: TextAlign.left,
-              ),
-            ),
+          const Divider(
+            indent: 12,
+            endIndent: 12,
+            thickness: 1,
           ),
-          spacer(height: 6.0),
+          // spacer(height: 6.0),
           Html(
             data: _article.content,
-
-            // onLinkTap: (String? url, RenderContext context,
-            //     Map<String, String> attributes, dom.Element? element) {
-            //   //open URL in webview, or launch URL in browser, or any other logic here
-            // },
-            // onImageTap: (String? url, RenderContext context,
-            //     Map<String, String> attributes, dom.Element? element) {
-            //   //open image in webview, or launch image in browser, or any other logic here
-            // }
-
-            customImageRenders: {
-              networkSourceMatcher(): networkImageRender(
-                width: 800,
-                altWidget: (alt) => Text(alt ?? ""),
-                loadingWidget: () => buildPlaceholderImage(),
-              ),
+            onLinkTap: (url, context, attributes, element) {
+              //TODO: launch url
             },
-            // style: {
-            //   'img': Style(
-            //     width: 10,
-            //   )
-            // },
+            onImageTap: (url, context, attributes, element) {
+              //open image in webview, or launch image in browser, or any other logic here
+            },
+            customImageRenders: {
+              networkSourceMatcher(): myNetworkImageRender(),
+            },
+            style: {
+              'a': aTagStyle,
+            },
+            shrinkWrap: true,
           )
         ],
       ),
     );
   }
 
-  Widget buildNetworkImage(ImageProvider<Object> image) {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: image,
-        ),
-      ),
-    );
-  }
-
-  Widget buildPlaceholderImage() {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: const DecorationImage(
-          fit: BoxFit.fill,
-          image: AssetImage('assets/placeholder.png'),
-        ),
-      ),
-    );
-  }
+  ImageRender myNetworkImageRender() => (context, attributes, element) {
+        return CachedNetworkImage(
+          // fit: BoxFit.cover,
+          imageUrl: attributes['src'] ?? '',
+          placeholder: (context, url) => buildPlaceholderImage(),
+          imageBuilder: (context, image) => buildNetworkImage(image),
+          errorWidget: (context, url, error) => buildPlaceholderImage(),
+        );
+      };
 }
