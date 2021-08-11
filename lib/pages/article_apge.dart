@@ -23,10 +23,10 @@ class ArticlePage extends StatelessWidget {
         title: Text(_article.category!),
       ),
       body: ListView(
-        // padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(12.0),
         children: [
           Container(
-            padding: const EdgeInsets.all(6.0),
+            // padding: const EdgeInsets.all(6.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -66,6 +66,7 @@ class ArticlePage extends StatelessWidget {
           // spacer(height: 6.0),
           Html(
             data: _article.content,
+
             onLinkTap: (url, context, attributes, element) {
               //TODO: launch url
             },
@@ -76,7 +77,10 @@ class ArticlePage extends StatelessWidget {
               networkSourceMatcher(): myNetworkImageRender(),
             },
             style: {
+              "body": Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero),
+              "*": Style(margin: EdgeInsets.zero, ),
               'a': aTagStyle,
+              'p, h1, h2, h3, h4, h5, h6': pTag,
             },
             shrinkWrap: true,
           )

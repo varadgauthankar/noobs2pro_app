@@ -32,16 +32,16 @@ flutter:
     - assets/placeholder.png
 
 #   - images/a_dot_ham.jpeg
-fonts:
-  - family: Poppins
-    fonts:
-      - asset: assets/fonts/poppins/Poppins-Black.ttf
-      - asset: assets/fonts/poppins/Poppins-Bold.ttf
-      - asset: assets/fonts/poppins/Poppins-ExtraBold.ttf
-      - asset: assets/fonts/poppins/Poppins-Italic.ttf
-      - asset: assets/fonts/poppins/Poppins-Medium.ttf
-      - asset: assets/fonts/poppins/Poppins-MediumItalic.ttf
-      - asset: assets/fonts/poppins/Poppins-Regular.ttf
-      - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
-      - asset: assets/fonts/poppins/Poppins-SemiBoldItalic.ttf
-      - asset: assets/fonts/poppins/Poppins-Thin.ttf
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Black.ttf
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+        - asset: assets/fonts/poppins/Poppins-ExtraBold.ttf
+        - asset: assets/fonts/poppins/Poppins-Italic.ttf
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+        - asset: assets/fonts/poppins/Poppins-MediumItalic.ttf
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+        - asset: assets/fonts/poppins/Poppins-SemiBoldItalic.ttf
+        - asset: assets/fonts/poppins/Poppins-Thin.ttf

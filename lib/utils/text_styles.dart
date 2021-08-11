@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
@@ -11,4 +12,11 @@ const TextStyle articleTitle = TextStyle(
 
 Style aTagStyle = Style(
   color: kAccentColor,
+  fontFamily: 'Poppins',
+  fontWeight: FontWeight.w600,
+);
+
+Style pTag = Style(
+
+  fontFamily: 'Poppins',
 );
