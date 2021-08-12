@@ -7,6 +7,7 @@ import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/images.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ArticlePage extends StatelessWidget {
   final Size? screenDimention;
@@ -66,7 +67,6 @@ class ArticlePage extends StatelessWidget {
           // spacer(height: 6.0),
           Html(
             data: _article.content,
-
             onLinkTap: (url, context, attributes, element) {
               //TODO: launch url
             },
@@ -78,7 +78,7 @@ class ArticlePage extends StatelessWidget {
             },
             style: {
               "body": Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero),
-              "*": Style(margin: EdgeInsets.zero, ),
+              "figure": Style(margin: EdgeInsets.zero),
               'a': aTagStyle,
               'p, h1, h2, h3, h4, h5, h6': pTag,
             },
@@ -94,8 +94,41 @@ class ArticlePage extends StatelessWidget {
           // fit: BoxFit.cover,
           imageUrl: attributes['src'] ?? '',
           placeholder: (context, url) => buildPlaceholderImage(),
-          imageBuilder: (context, image) => buildNetworkImage(image),
+          imageBuilder: (context, image) =>
+              buildArticleNetworkImage(context, image),
           errorWidget: (context, url, error) => buildPlaceholderImage(),
         );
       };
+
+  Widget buildArticleNetworkImage(
+    BuildContext context,
+    ImageProvider<Object> image, {
+    double? height,
+    double? width,
+  }) {
+    return SizedBox(
+      height: height ?? 200,
+      width: width ?? double.maxFinite,
+      child: PhotoView.customChild(
+        initialScale: PhotoViewComputedScale.contained,
+        minScale: PhotoViewComputedScale.contained,
+        maxScale: PhotoViewComputedScale.contained,
+        backgroundDecoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        child: Container(
+          height: height ?? 200,
+          width: width ?? double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            image: DecorationImage(
+              fit: BoxFit.fill,
+              image: image,
+              // borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
