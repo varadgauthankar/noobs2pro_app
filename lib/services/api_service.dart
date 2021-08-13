@@ -5,6 +5,7 @@ import 'package:noobs2pro_app/models/article.dart';
 import 'package:http/http.dart' as http;
 import 'package:noobs2pro_app/models/media.dart';
 import 'package:noobs2pro_app/models/models.dart';
+import 'package:noobs2pro_app/services/hive_service.dart';
 
 class ApiService {
   static Future<List<Article>> getAllPosts() async {
@@ -14,8 +15,7 @@ class ApiService {
         allPostsEndpoint,
         {'per_page': '100', '_embed': ''},
       );
-      // final url = Uri.parse(
-      //     'https://www.noobs2pro.com/wp-json/wp/v2/posts?_embed&per_page=10');
+
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
