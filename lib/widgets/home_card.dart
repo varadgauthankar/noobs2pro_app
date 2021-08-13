@@ -65,7 +65,9 @@ class HomeCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                    '${getFormattedDate(_article.date!)} - ${_article.category}'),
+                  '${getFormattedDate(_article.date!)} - ${_article.category}',
+                  style: Theme.of(context).textTheme.caption,
+                ),
                 Wrap(
                   children: [
                     IconButton(

@@ -30,6 +30,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu_outlined),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: 'Open drawer',
+            );
+          },
+        ),
       ),
       body: BlocProvider(
         create: (context) => _articlesBloc,
@@ -49,12 +60,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      drawer: Drawer(),
     );
   }
 }
 
 Widget buildListOfArticles(List<Article> _articles, Size _screenDimention) {
   return ListView.builder(
+    padding: const EdgeInsets.all(6),
     itemCount: _articles.length,
     itemBuilder: (context, index) {
       final Article _article = _articles[index];

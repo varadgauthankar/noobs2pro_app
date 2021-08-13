@@ -7,16 +7,16 @@ const TextStyle articleTitle = TextStyle(
   fontSize: 18.0,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontWeight: FontWeight.w400,
+  fontWeight: FontWeight.w500,
 );
 
 Style aTagStyle = Style(
   color: kAccentColor,
   fontFamily: 'Poppins',
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w500,
 );
 
-Style pTag = Style(
-
+Style allTags = Style(
   fontFamily: 'Poppins',
+  fontSize: FontSize.large,
 );

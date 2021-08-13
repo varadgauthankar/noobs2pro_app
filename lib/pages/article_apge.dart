@@ -26,44 +26,40 @@ class ArticlePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(12.0),
         children: [
-          Container(
-            // padding: const EdgeInsets.all(6.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Hero(
-                  tag: 'image${_article.id}',
-                  child: CachedNetworkImage(
-                    fit: BoxFit.fill,
-                    imageUrl: _article.featuredMedia!.medium!,
-                    placeholder: (context, url) => buildPlaceholderImage(),
-                    imageBuilder: (context, image) => buildNetworkImage(image),
-                    errorWidget: (context, url, error) =>
-                        buildPlaceholderImage(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Hero(
+                tag: 'image${_article.id}',
+                child: CachedNetworkImage(
+                  fit: BoxFit.fill,
+                  imageUrl: _article.featuredMedia!.medium!,
+                  placeholder: (context, url) => buildPlaceholderImage(),
+                  imageBuilder: (context, image) => buildNetworkImage(image),
+                  errorWidget: (context, url, error) => buildPlaceholderImage(),
+                ),
+              ),
+              spacer(height: 6.0),
+              Hero(
+                tag: 'title${_article.id}',
+                child: Material(
+                  color: ktransparent,
+                  child: Text(
+                    unEscapedString.convert(_article.title!),
+                    style: articleTitle,
+                    textAlign: TextAlign.left,
                   ),
                 ),
-                spacer(height: 6.0),
-                Hero(
-                  tag: 'title${_article.id}',
-                  child: Material(
-                    color: ktransparent,
-                    child: Text(
-                      unEscapedString.convert(_article.title!),
-                      style: articleTitle,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                spacer(height: 6.0),
-                Text(getFormattedDate(_article.date!))
-              ],
-            ),
+              ),
+              spacer(height: 6.0),
+              Text(getFormattedDate(_article.date!))
+            ],
           ),
-          const Divider(
-            indent: 12,
-            endIndent: 12,
-            thickness: 1,
-          ),
+          // const Divider(
+          //   indent: 12,
+          //   endIndent: 12,
+          //   thickness: 1,
+          // ),
           // spacer(height: 6.0),
           Html(
             data: _article.content,
@@ -80,11 +76,15 @@ class ArticlePage extends StatelessWidget {
               "body": Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero),
               "figure": Style(margin: EdgeInsets.zero),
               'a': aTagStyle,
-              'p, h1, h2, h3, h4, h5, h6': pTag,
+              'p, h1, h2, h3, h4, h5, h6': allTags,
             },
             shrinkWrap: true,
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.share),
       ),
     );
   }
