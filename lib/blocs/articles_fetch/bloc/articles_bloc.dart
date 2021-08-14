@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository.dart';
 import 'package:noobs2pro_app/models/article.dart';
-import 'package:noobs2pro_app/services/hive_service.dart';
 
 part 'articles_event.dart';
 part 'articles_state.dart';
@@ -24,7 +23,6 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       try {
         final List<Article> articles =
             await _articlesRepository.fetchArticles();
-        HiveService().insertArticles(articles);
         yield ArticlesFetchComplete(articles);
       } on SocketException {
         yield ArticlesFetchError('No internet');

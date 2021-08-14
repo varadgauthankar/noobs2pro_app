@@ -4,7 +4,7 @@ import 'package:noobs2pro_app/utils/colors.dart';
 ThemeData light = ThemeData(
     primaryColor: kPrimaryColor,
     accentColor: kAccentColor,
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     scaffoldBackgroundColor: Colors.white,
     applyElevationOverlayColor: true,
 

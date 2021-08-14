@@ -28,3 +28,11 @@ Widget spacer({double height = 0, double width = 0}) {
     width: width,
   );
 }
+
+bool isThemeDark(BuildContext context) {
+  if (Theme.of(context).brightness == Brightness.dark) {
+    return true;
+  } else {
+    return false;
+  }
+}

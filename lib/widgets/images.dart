@@ -29,7 +29,7 @@ Widget buildPlaceholderImage({
       borderRadius: BorderRadius.circular(12),
       image: const DecorationImage(
         fit: BoxFit.fill,
-        image: AssetImage('assets/placeholder.png'),
+        image: AssetImage('assets/images/placeholder.png'),
       ),
     ),
   );

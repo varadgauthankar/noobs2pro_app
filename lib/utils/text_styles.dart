@@ -20,3 +20,25 @@ Style allTags = Style(
   fontFamily: 'Poppins',
   fontSize: FontSize.large,
 );
+
+//loginPage
+const TextStyle welcomeStyle = TextStyle(
+  fontSize: 34,
+  fontFamily: 'Poppins',
+  fontWeight: FontWeight.w800,
+  height: 2,
+);
+
+const TextStyle appNameStyle = TextStyle(
+  fontSize: 34,
+  color: kAccentColor,
+  fontFamily: 'Poppins',
+  fontWeight: FontWeight.w800,
+  height: 1,
+);
+
+const TextStyle sloganStyle = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'Poppins',
+);

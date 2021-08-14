@@ -1,5 +1,12 @@
+import 'package:hive_flutter/hive_flutter.dart';
+
+part 'media.g.dart';
+
+@HiveType(typeId: 1)
 class Media {
+  @HiveField(0)
   String? medium;
+  @HiveField(1)
   String? thumbnail;
 
   Media({
