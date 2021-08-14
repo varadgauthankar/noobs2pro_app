@@ -8,11 +8,10 @@ import 'models/models.dart';
 
 // ignore: avoid_void_async
 void main() async {
-  // await Hive.initFlutter();
-  // await Hive.openBox<Article>(kArticlesBox);
-  // await Hive.openBox<List<int>>(kSavedArticleBox);
-  // Hive.registerAdapter(ArticleAdapter());
-  // Hive.registerAdapter(MediaAdapter());
+  await Hive.initFlutter();
+  await Hive.openBox<Article>(kArticlesBox);
+  Hive.registerAdapter<Article>(ArticleAdapter());
+  Hive.registerAdapter<Media>(MediaAdapter());
   runApp(MyApp());
 }
 

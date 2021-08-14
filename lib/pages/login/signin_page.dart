@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:noobs2pro_app/constants/strings.dart';
-import 'package:noobs2pro_app/pages/login/signin_page.dart';
-import 'package:noobs2pro_app/pages/login/signup_page.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
-import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/buttons/primary_button.dart';
-import 'package:noobs2pro_app/widgets/buttons/secondary_button.dart';
+import 'package:noobs2pro_app/widgets/text_fields/base_text_field.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+class SigninPage extends StatefulWidget {
+  const SigninPage({Key? key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _SigninPageState createState() => _SigninPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _SigninPageState extends State<SigninPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final obscureText = true;
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: isThemeDark(context) ? kPrimaryColorDark : kWhite,
         body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
           child: SizedBox(
             height: screenSize.height,
             width: screenSize.width,
@@ -59,18 +58,47 @@ class _MainPageState extends State<MainPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             spacer(height: 22.0),
-                            SvgPicture.asset(
-                              'assets/images/welcome.svg',
-                              height: screenSize.height * 0.2,
+                            Align(
+                              //ignore: avoid_redundant_argument_values
+                              alignment: Alignment.center,
+                              child: SvgPicture.asset(
+                                'assets/images/welcome.svg',
+                                height: screenSize.height * 0.2,
+                              ),
                             ),
-                            spacer(height: 12.0),
-                            const Text('Welcome to', style: welcomeStyle),
-                            Text(kAppName, style: appNameStyle),
-                            spacer(height: 12.0),
-                            Text(kSlogan, style: sloganStyle),
+                            spacer(height: 22.0),
+                            spacer(height: 22.0),
+                            BaseTextField(
+                              label: 'Email',
+                              hintText: 'Enter your email',
+                              controller: emailController,
+                              validator: (value) {
+                                if (isValidEmail(value)) {
+                                  return null;
+                                }
+                                return 'Please enter a valid Email';
+                              },
+                            ),
+                            spacer(height: 12),
+                            BaseTextField(
+                              obscureText: obscureText,
+                              label: 'Password',
+                              hintText: 'Enter your password',
+                              controller: passwordController,
+                              validator: (value) {
+                                if (value!.length < 6) {
+                                  return null;
+                                }
+                                return 'Passoword should be greater than 6 characters';
+                              },
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text('Forgot Password?'),
+                            ),
                           ],
                         ),
                         Column(
@@ -78,34 +106,15 @@ class _MainPageState extends State<MainPage> {
                             PrimaryButton(
                               heroTag: 'primary',
                               text: 'Sign In',
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SigninPage(),
-                                  ),
-                                );
-                              },
+                              onPressed: () {},
                               width: screenSize.width,
                             ),
                             spacer(height: 12.0),
-                            SecondaryButton(
-                              text: 'Sign Up',
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignupPage(),
-                                  ),
-                                );
-                              },
-                              width: screenSize.width,
-                            ),
                             spacer(height: 33.0),
                             Align(
                               alignment: Alignment.bottomRight,
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () => Navigator.pop(context),
                                 style: TextButton.styleFrom(
                                   primary: Colors.grey,
                                   textStyle: const TextStyle(
@@ -113,7 +122,7 @@ class _MainPageState extends State<MainPage> {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                child: const Text('Skip this'),
+                                child: const Text('Cancel'),
                               ),
                             )
                           ],
