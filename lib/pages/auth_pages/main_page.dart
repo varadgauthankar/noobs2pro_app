@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
                           children: [
                             PrimaryButton(
                               heroTag: 'primary',
-                              text: 'Sign In',
+                              child: const Text('Sign In'),
                               onPressed: () {
                                 Navigator.push(
                                   context,

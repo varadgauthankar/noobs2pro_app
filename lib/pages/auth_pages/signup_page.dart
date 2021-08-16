@@ -6,7 +6,9 @@ import 'package:noobs2pro_app/pages/home_page.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/widgets/buttons/primary_button.dart';
+import 'package:noobs2pro_app/widgets/my_circular_progress.dart';
 import 'package:noobs2pro_app/widgets/text_fields/base_text_field.dart';
+import 'package:validators/validators.dart' as validator;
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -18,7 +20,16 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   final obscureText = true;
+
+  bool isFormValidate() {
+    if (_formKey.currentState!.validate()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   final SignUpBloc _signUpBloc = SignUpBloc();
   @override
@@ -32,14 +43,14 @@ class _SignupPageState extends State<SignupPage> {
           create: (context) => _signUpBloc,
           child: BlocListener<SignUpBloc, SignUpState>(
             listener: (context, state) {
-              if (state is SignUpIntialState) {
-                print('init');
-              }
-              if (state is SignUpLoadingState) {
-                print('loading');
-              }
               if (state is SignUpCompleteState) {
-                print(state.user.email);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+              } else if (state is SignUpFailedState) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(state.error)));
               }
             },
             child: SingleChildScrollView(
@@ -49,6 +60,7 @@ class _SignupPageState extends State<SignupPage> {
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
+                    // backgtound
                     Container(
                       width: screenSize.width,
                       height: screenSize.height / 2,
@@ -72,92 +84,100 @@ class _SignupPageState extends State<SignupPage> {
                             )
                           ],
                         ),
+
+                        //! top image
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                spacer(height: 22.0),
-                                Align(
-                                  //ignore: avoid_redundant_argument_values
-                                  alignment: Alignment.center,
-                                  child: SvgPicture.asset(
-                                    'assets/images/welcome.svg',
-                                    height: screenSize.height * 0.2,
-                                  ),
-                                ),
-                                spacer(height: 22.0),
-                                spacer(height: 22.0),
-                                BaseTextField(
-                                  label: 'Name',
-                                  hintText: 'Enter your name',
-                                  controller: emailController,
-                                  validator: (value) {
-                                    if (value!.length < 2) {
-                                      return null;
-                                    }
-                                    return 'Name is too short';
-                                  },
-                                ),
-                                spacer(height: 12),
-                                BaseTextField(
-                                  label: 'Email',
-                                  hintText: 'Enter your email',
-                                  controller: emailController,
-                                  validator: (value) {
-                                    if (isValidEmail(value)) {
-                                      return null;
-                                    }
-                                    return 'Please enter a valid Email';
-                                  },
-                                ),
-                                spacer(height: 12),
-                                BaseTextField(
-                                  obscureText: obscureText,
-                                  label: 'Password',
-                                  hintText: 'Enter your password',
-                                  controller: passwordController,
-                                  validator: (value) {
-                                    if (value!.length < 6) {
-                                      return null;
-                                    }
-                                    return 'Passoword should be greater than 6 characters';
-                                  },
-                                ),
-                              ],
+                            spacer(height: 22.0),
+                            SvgPicture.asset(
+                              'assets/images/welcome.svg',
+                              height: screenSize.height * 0.2,
                             ),
-                            Column(
-                              children: [
-                                PrimaryButton(
-                                  heroTag: 'primary',
-                                  text: 'Sign up',
-                                  onPressed: () {
-                                    _signUpBloc.add(SignUpButtonPressed(
-                                      email: 'gvarad@gmail.com',
-                                      password: 'varad1601',
-                                    ));
-                                  },
-                                  width: screenSize.width,
-                                ),
-                                spacer(height: 12.0),
-                                spacer(height: 33.0),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    style: TextButton.styleFrom(
-                                      primary: Colors.grey,
-                                      textStyle: const TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    child: const Text('Cancel'),
+                            spacer(height: 22.0),
+                            spacer(height: 22.0),
+
+                            //! bottom stuff
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  BaseTextField(
+                                    label: 'Email',
+                                    hintText: 'Enter your email',
+                                    controller: emailController,
+                                    validator: (value) {
+                                      if (validator.isEmail(value!)) {
+                                        return null;
+                                      } else {
+                                        return 'Please enter a valid email';
+                                      }
+                                      // if (value!.isNotEmpty) {
+                                      //   if (isValidEmail(value)) {
+                                      //     return 'Please enter a valid email';
+                                      //   } else {
+                                      //     return null;
+                                      //   }
+                                      // } else {
+                                      //   return 'Please enter the email';
+                                      // }
+                                    },
                                   ),
-                                )
-                              ],
+                                  spacer(height: 12),
+                                  BaseTextField(
+                                    obscureText: obscureText,
+                                    label: 'Password',
+                                    hintText: 'Enter your password',
+                                    controller: passwordController,
+                                    validator: (value) {
+                                      if (value!.isNotEmpty) {
+                                        if (value.length < 6) {
+                                          return 'Password should be atleast 6 characters long';
+                                        } else {
+                                          return null;
+                                        }
+                                      } else {
+                                        return 'Please enter the password';
+                                      }
+                                    },
+                                  ),
+                                  spacer(height: 24),
+                                  BlocBuilder<SignUpBloc, SignUpState>(
+                                    builder: (context, state) {
+                                      return PrimaryButton(
+                                        heroTag: 'primary',
+                                        onPressed: () {
+                                          if (isFormValidate()) {
+                                            _signUpBloc.add(SignUpButtonPressed(
+                                              email: emailController.text,
+                                              password: passwordController.text,
+                                            ));
+                                          }
+                                        },
+                                        width: screenSize.width,
+                                        child: state is SignUpLoadingState
+                                            ? const MyCircularProgress()
+                                            : const Text('Sign Up'),
+                                      );
+                                    },
+                                  ),
+                                  spacer(height: 12.0),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.grey,
+                                        textStyle: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      child: const Text('Cancel'),
+                                    ),
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),

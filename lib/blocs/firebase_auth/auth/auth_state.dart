@@ -1,8 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+part of 'auth_bloc.dart';
 
 abstract class AuthState {}
 
 class AuthInitialState extends AuthState {}
+
+class AuthLoadingState extends AuthState {}
 
 class AuthAuthenticatedState extends AuthState {
   User user;

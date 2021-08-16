@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noobs2pro_app/blocs/firebase_auth/auth/auth_event.dart';
-import 'package:noobs2pro_app/blocs/firebase_auth/auth/auth_state.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitialState());
@@ -10,10 +12,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is AppLoaded) {
+      yield AuthLoadingState();
       try {
-        final isSignedIn = await firebaseAuthService.isSignedIn();
+        final isSignedIn = firebaseAuthService.isSignedIn();
+
         if (isSignedIn) {
-          final currentUser = await firebaseAuthService.getCurrentUser();
+          final currentUser = firebaseAuthService.getCurrentUser();
           yield AuthAuthenticatedState(currentUser!);
         } else {
           yield AuthUnAuthenticatedState();

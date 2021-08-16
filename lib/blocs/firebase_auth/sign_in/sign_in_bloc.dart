@@ -21,7 +21,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         );
         yield SignInCompleteState(user!);
       } catch (e) {
-        SignInFailedState(e.toString());
+        yield SignInFailedState(e.toString());
       }
     }
   }

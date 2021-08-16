@@ -20,8 +20,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           event.password!,
         );
         yield SignUpCompleteState(user!);
+      } on FirebaseAuthException catch (e) {
+        yield SignUpFailedState(e.code);
       } catch (e) {
-        SignUpFailedState(e.toString());
+        yield SignUpFailedState(e.toString());
       }
     }
   }

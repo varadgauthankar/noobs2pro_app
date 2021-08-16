@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
-  final String text;
+  final Widget child;
   final Function() onPressed;
   final double? width;
   final String heroTag;
   const PrimaryButton({
     Key? key,
-    required this.text,
+    required this.child,
     required this.onPressed,
     this.width,
     required this.heroTag,
@@ -35,7 +35,7 @@ class PrimaryButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(50.0),
             ),
           ),
-          child: Text(text),
+          child: child,
         ),
       ),
     );
