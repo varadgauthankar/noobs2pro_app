@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:noobs2pro_app/models/article.dart';
-import 'package:noobs2pro_app/models/models.dart';
 import 'package:noobs2pro_app/pages/article_apge.dart';
+import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
@@ -71,8 +71,17 @@ class HomeCard extends StatelessWidget {
                 Wrap(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.bookmark_border_rounded),
-                      onPressed: () {},
+                      color: _article.isSaved == true ? kAccentColor : kBlack,
+                      icon: Icon(
+                        _article.isSaved == true
+                            ? Icons.bookmark_rounded
+                            : Icons.bookmark_border_rounded,
+                      ),
+                      onPressed: () {
+                        _article.isSaved != true
+                            ? HiveService.saveArticle(_article.id ?? 0)
+                            : HiveService.unSaveArticle(_article.id ?? 0);
+                      },
                       visualDensity: VisualDensity.compact,
                     ),
                     IconButton(

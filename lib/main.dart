@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:noobs2pro_app/blocs/firebase_auth/auth/auth_bloc.dart';
 import 'package:noobs2pro_app/constants/hive_boxes.dart';
-import 'package:noobs2pro_app/pages/login/main_page.dart';
-import 'package:noobs2pro_app/pages/pages.dart';
+import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/pages/auth_wrapper.dart';
 import 'package:noobs2pro_app/utils/theme.dart';
-import 'models/models.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 // ignore: avoid_void_async
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await Hive.initFlutter();
-  await Hive.openBox<Article>(kArticlesBox);
   Hive.registerAdapter<Article>(ArticleAdapter());
   Hive.registerAdapter<Media>(MediaAdapter());
+  await Hive.openBox<Article>(kArticlesBox);
+  await Hive.openBox<int>(kSavedArticleBox);
   runApp(MyApp());
 }
 
@@ -21,7 +26,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: light,
-      home: const MainPage(),
+      home: BlocProvider(
+        create: (context) => AuthBloc(),
+        child: const AuthWrapper(),
+      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html_unescape/html_unescape_small.dart';
-import 'package:noobs2pro_app/models/models.dart';
+import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';

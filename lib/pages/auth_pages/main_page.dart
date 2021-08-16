@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:noobs2pro_app/constants/strings.dart';
-import 'package:noobs2pro_app/pages/login/signin_page.dart';
-import 'package:noobs2pro_app/pages/login/signup_page.dart';
+import 'package:noobs2pro_app/pages/auth_pages/signin_page.dart';
+import 'package:noobs2pro_app/pages/auth_pages/signup_page.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';

@@ -1,5 +1,4 @@
 import 'package:hive_flutter/adapters.dart';
-import 'package:noobs2pro_app/models/media.dart';
 
 part 'article.g.dart';
 
@@ -21,6 +20,8 @@ class Article extends HiveObject {
   String? category;
   @HiveField(7)
   Media? featuredMedia;
+  @HiveField(8)
+  bool? isSaved;
 
   Article({
     this.id,
@@ -31,6 +32,7 @@ class Article extends HiveObject {
     this.shortContent,
     this.category,
     this.featuredMedia,
+    this.isSaved = false,
   });
 
   Article.fromJson(Map<String, dynamic> json) {
@@ -43,5 +45,45 @@ class Article extends HiveObject {
     featuredMedia = Media.fromJson(
         json['_embedded']['wp:featuredmedia'][0] as Map<String, dynamic>);
     category = json['_embedded']['wp:term'][0][0]['name'] as String;
+  }
+
+  Article copyWith({bool isSaved = false}) {
+    return Article(
+      id: id,
+      date: date,
+      link: link,
+      title: title,
+      content: title,
+      shortContent: shortContent,
+      featuredMedia: featuredMedia,
+      category: category,
+      isSaved: isSaved,
+    );
+  }
+}
+
+@HiveType(typeId: 1)
+class Media extends HiveObject {
+  @HiveField(0)
+  String? medium;
+  @HiveField(1)
+  String? thumbnail;
+
+  Media({
+    this.medium,
+    this.thumbnail,
+  });
+
+  Media.fromJson(Map<String, dynamic> json) {
+    medium = json['media_details']['sizes']['medium']['source_url'] as String;
+    thumbnail =
+        json['media_details']['sizes']['thumbnail']['source_url'] as String;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['medium'] = medium;
+    data['thumbnail'] = thumbnail;
+    return data;
   }
 }

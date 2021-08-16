@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:noobs2pro_app/constants/api_url.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:http/http.dart' as http;
-import 'package:noobs2pro_app/models/media.dart';
-import 'package:noobs2pro_app/models/models.dart';
-import 'package:noobs2pro_app/services/hive_service.dart';
+import 'package:noobs2pro_app/models/category.dart';
 
 class ApiService {
   static Future<List<Article>> getAllPosts() async {

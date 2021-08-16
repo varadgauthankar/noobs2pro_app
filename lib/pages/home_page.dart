@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
-import 'package:noobs2pro_app/models/models.dart';
+import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 import 'package:noobs2pro_app/widgets/home_card.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // bvararad
 
@@ -53,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               } else if (state is ArticlesFetchLoading) {
                 return const CenteredCircularProgressBar();
               } else if (state is ArticlesFetchComplete) {
-                return buildListOfArticles(state.articles, screenDimention);
+                return buildListOfArticles(screenDimention);
               }
               return const Text('Failed');
             },
@@ -65,13 +67,18 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget buildListOfArticles(List<Article> _articles, Size _screenDimention) {
-  return ListView.builder(
-    padding: const EdgeInsets.all(6),
-    itemCount: _articles.length,
-    itemBuilder: (context, index) {
-      final Article _article = _articles[index];
-      return HomeCard(_article, _screenDimention);
+Widget buildListOfArticles(Size _screenDimention) {
+  return ValueListenableBuilder(
+    valueListenable: HiveService.box.listenable(),
+    builder: (context, Box<Article> box, _) {
+      return ListView.builder(
+        padding: const EdgeInsets.all(6),
+        itemCount: box.values.length,
+        itemBuilder: (context, index) {
+          final Article _article = box.values.toList().elementAt(index);
+          return HomeCard(_article, _screenDimention);
+        },
+      );
     },
   );
 }
