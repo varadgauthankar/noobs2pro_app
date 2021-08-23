@@ -10,16 +10,16 @@ part 'article_saving_event.dart';
 part 'article_saving_state.dart';
 
 class ArticleSavingBloc extends Bloc<ArticleSavingEvent, ArticleSavingState> {
-  ArticleSavingBloc() : super(ArticleSavingInitial());
-
-  final _fireStoreService =
-      FirestoreService(uid: 'C6q6MZdWvVOCjToZwPDe7ZsNYFJ2');
-  final _hiveService = HiveService();
+  final String firebaseUserId;
+  ArticleSavingBloc({required this.firebaseUserId})
+      : super(ArticleSavingInitial());
 
   @override
   Stream<ArticleSavingState> mapEventToState(
     ArticleSavingEvent event,
   ) async* {
+    final _fireStoreService = FirestoreService(uid: firebaseUserId);
+    final _hiveService = HiveService();
     // save article
     if (event is ArticleSaveEvent) {
       yield ArticleSavingLoading();

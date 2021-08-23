@@ -3,24 +3,19 @@ import 'package:noobs2pro_app/constants/hive_boxes.dart';
 import 'package:noobs2pro_app/models/article.dart';
 
 class HiveService {
-  static Box<Article> allArticlBox = Hive.box<Article>(kArticlesBox);
-  static Box<int> savedArticlebox = Hive.box<int>(kSavedArticleBox);
+  Box<Article> allArticlBox = Hive.box<Article>(kArticlesBox);
+  Box<int> savedArticlebox = Hive.box<int>(kSavedArticleBox);
 
-  void insertArticles(List<Article> articles) {
-    for (final article in articles) {
-      allArticlBox.add(article);
-    }
+  void insertArticle(Article article) {
+    allArticlBox.add(article);
   }
 
   List<Article> getArticles() {
     final List<Article> articlesList = [];
 
-    final articleBox = Hive.box(kArticlesBox);
-
-    for (final article in articleBox.values as List<Article>) {
+    for (final article in allArticlBox.values.toList()) {
       articlesList.add(article);
     }
-
     return articlesList;
   }
 

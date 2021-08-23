@@ -13,18 +13,20 @@ import 'package:noobs2pro_app/widgets/images.dart';
 class HomeCard extends StatelessWidget {
   final Article _article;
   final Size _screenDimention;
+  final String firebaseUserId;
   HomeCard(
     this._article,
     this._screenDimention, {
     Key? key,
+    required this.firebaseUserId,
   }) : super(key: key);
 
   HtmlUnescape unEscapedString = HtmlUnescape();
 
-  final ArticleSavingBloc _bloc = ArticleSavingBloc();
-
   @override
   Widget build(BuildContext context) {
+    final ArticleSavingBloc _bloc =
+        ArticleSavingBloc(firebaseUserId: firebaseUserId);
     return BlocProvider(
       create: (context) => _bloc,
       child: BlocListener<ArticleSavingBloc, ArticleSavingState>(

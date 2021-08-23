@@ -16,8 +16,9 @@ class AuthWrapper extends StatelessWidget {
           //TODo : replace with splash screen
           return const Text('splash screem');
         } else if (state is AuthAuthenticatedState) {
-          return const HomePage();
+          return HomePage(firebaseUserId: state.user.uid);
         } else {
+          //return login?signUp page
           return const MainPage();
         }
       },

@@ -5,24 +5,28 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository.dart';
 import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/services/firestore_service.dart';
 
 part 'articles_event.dart';
 part 'articles_state.dart';
 
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   final ArticlesRepository _articlesRepository;
+  final String firebaseUserId;
 
-  ArticlesBloc(this._articlesRepository) : super(ArticlesInitial());
+  ArticlesBloc(this._articlesRepository, {required this.firebaseUserId})
+      : super(ArticlesInitial());
 
   @override
   Stream<ArticlesState> mapEventToState(
     ArticlesEvent event,
   ) async* {
+    final _firestoreService = FirestoreService(uid: firebaseUserId);
     if (event is FetchArticlesEvent) {
       yield ArticlesFetchLoading();
       try {
         final List<Article> articles =
-            await _articlesRepository.fetchArticles();
+            await _articlesRepository.fetchArticles(_firestoreService);
         yield ArticlesFetchComplete(articles);
       } on SocketException {
         yield ArticlesFetchError('No internet');

@@ -46,7 +46,10 @@ class _SignupPageState extends State<SignupPage> {
               if (state is SignUpCompleteState) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        HomePage(firebaseUserId: state.user.uid),
+                  ),
                 );
               } else if (state is SignUpFailedState) {
                 ScaffoldMessenger.of(context)

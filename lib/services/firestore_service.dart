@@ -11,9 +11,12 @@ class FirestoreService {
   }
 
   void saveArticleId(int id) {
-    _savedArticleCollection?.doc(uid).set({
-      "ids": [id, id]
-    });
+    _savedArticleCollection?.doc(uid).set(
+      {
+        "ids": FieldValue.arrayUnion([id])
+      },
+      SetOptions(merge: true),
+    );
   }
 
   void unSaveArticleId(int id) {
@@ -22,12 +25,17 @@ class FirestoreService {
     });
   }
 
-  List<int> getSavedArticleIds() {
-    List<int> ids = [];
-    _savedArticleCollection
-        ?.doc(uid)
-        .get()
-        .then((value) => ids = value.get('ids') as List<int>);
-    return ids;
+  Future getSavedArticleIds() async {
+    final doc = await _savedArticleCollection?.doc(uid).get();
+    final dynamic value;
+    if (doc!.exists) {
+      value = await doc.get('ids');
+    } else {
+      value = [];
+    }
+
+    // .then((value) => ids = value.get('ids') as List<int>);
+
+    return value;
   }
 }
