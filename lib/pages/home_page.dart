@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
 
 Widget buildListOfArticles(Size _screenDimention) {
   return ValueListenableBuilder(
-    valueListenable: HiveService.box.listenable(),
+    valueListenable: HiveService.allArticlBox.listenable(),
     builder: (context, Box<Article> box, _) {
       return ListView.builder(
         padding: const EdgeInsets.all(6),

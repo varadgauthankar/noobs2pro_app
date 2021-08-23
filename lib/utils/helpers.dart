@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMySnackBar(
     BuildContext context,
     {required String message}) {
   return ScaffoldMessenger.of(context).showSnackBar(
