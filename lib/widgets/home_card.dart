@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/pages/article_apge.dart';
+import 'package:noobs2pro_app/services/firebase_auth.dart';
+import 'package:noobs2pro_app/services/firestore_service.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
@@ -19,6 +21,10 @@ class HomeCard extends StatelessWidget {
   }) : super(key: key);
 
   HtmlUnescape unEscapedString = HtmlUnescape();
+
+//TODO send uid dynamically
+  final FirestoreService _firestoreService =
+      FirestoreService(uid: 'C6q6MZdWvVOCjToZwPDe7ZsNYFJ2');
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +84,11 @@ class HomeCard extends StatelessWidget {
                             : Icons.bookmark_border_rounded,
                       ),
                       onPressed: () {
-                        _article.isSaved != true
-                            ? HiveService.saveArticle(_article.id ?? 0)
-                            : HiveService.unSaveArticle(_article.id ?? 0);
+                        // _article.isSaved != true
+                        //     ? HiveService.saveArticle(_article.id ?? 0)
+                        //     : HiveService.unSaveArticle(_article.id ?? 0);
+
+                        _firestoreService.unSaveArticleId(16);
                       },
                       visualDensity: VisualDensity.compact,
                     ),
