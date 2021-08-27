@@ -26,6 +26,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: light,
+      darkTheme: dark,
+      themeMode: ThemeMode.light,
       home: BlocProvider(
         create: (context) => AuthBloc()..add(AppLoaded()),
         child: const AuthWrapper(),

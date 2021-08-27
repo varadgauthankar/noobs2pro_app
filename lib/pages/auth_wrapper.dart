@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/firebase_auth/auth/auth_bloc.dart';
-import 'package:noobs2pro_app/pages/home_page.dart';
-import 'package:noobs2pro_app/pages/auth_pages/main_page.dart';
+import 'package:noobs2pro_app/pages/pages.dart';
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({Key? key}) : super(key: key);
@@ -16,10 +15,10 @@ class AuthWrapper extends StatelessWidget {
           //TODo : replace with splash screen
           return const Text('splash screem');
         } else if (state is AuthAuthenticatedState) {
-          return HomePage(firebaseUserId: state.user.uid);
+          return const MainPage();
         } else {
           //return login?signUp page
-          return const MainPage();
+          return const AuthMainPage();
         }
       },
     );

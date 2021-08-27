@@ -64,4 +64,8 @@ class FirebaseAuthService {
   User? getCurrentUser() {
     return firebaseAuth.currentUser;
   }
+
+  String? getCurrentUserUid() {
+    return firebaseAuth.currentUser?.uid;
+  }
 }

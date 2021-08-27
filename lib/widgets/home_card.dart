@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/article_saving/bloc/article_saving_bloc.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/pages/article_apge.dart';
+import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
@@ -13,20 +15,18 @@ import 'package:noobs2pro_app/widgets/images.dart';
 class HomeCard extends StatelessWidget {
   final Article _article;
   final Size _screenDimention;
-  final String firebaseUserId;
   HomeCard(
     this._article,
     this._screenDimention, {
     Key? key,
-    required this.firebaseUserId,
   }) : super(key: key);
 
   HtmlUnescape unEscapedString = HtmlUnescape();
 
   @override
   Widget build(BuildContext context) {
-    final ArticleSavingBloc _bloc =
-        ArticleSavingBloc(firebaseUserId: firebaseUserId);
+    final ArticleSavingBloc _bloc = ArticleSavingBloc(
+        firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '');
     return BlocProvider(
       create: (context) => _bloc,
       child: BlocListener<ArticleSavingBloc, ArticleSavingState>(
@@ -89,8 +89,8 @@ class HomeCard extends StatelessWidget {
                               _article.isSaved == true ? kAccentColor : kBlack,
                           icon: Icon(
                             _article.isSaved == true
-                                ? Icons.bookmark_rounded
-                                : Icons.bookmark_border_rounded,
+                                ? EvaIcons.bookmark
+                                : EvaIcons.bookmarkOutline,
                           ),
                           onPressed: () {
                             _article.isSaved != true

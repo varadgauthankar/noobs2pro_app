@@ -9,14 +9,14 @@ import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/buttons/primary_button.dart';
 import 'package:noobs2pro_app/widgets/buttons/secondary_button.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+class AuthMainPage extends StatefulWidget {
+  const AuthMainPage({Key? key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _AuthMainPageState createState() => _AuthMainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _AuthMainPageState extends State<AuthMainPage> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;

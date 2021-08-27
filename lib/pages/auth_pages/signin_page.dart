@@ -40,8 +40,7 @@ class _SigninPageState extends State<SigninPage> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          HomePage(firebaseUserId: state.user.uid),
+                      builder: (context) => const MainPage(),
                     ),
                   );
                 } else if (state is SignInFailedState) {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:noobs2pro_app/blocs/firebase_auth/sign_up/sign_up_bloc.dart';
 import 'package:noobs2pro_app/pages/home_page.dart';
+import 'package:noobs2pro_app/pages/pages.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/widgets/buttons/primary_button.dart';
@@ -47,8 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        HomePage(firebaseUserId: state.user.uid),
+                    builder: (context) => const MainPage(),
                   ),
                 );
               } else if (state is SignUpFailedState) {
