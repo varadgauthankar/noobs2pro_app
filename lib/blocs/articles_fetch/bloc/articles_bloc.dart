@@ -22,7 +22,23 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     ArticlesEvent event,
   ) async* {
     final _firestoreService = FirestoreService(uid: firebaseUserId);
+    // get all articles
     if (event is FetchArticlesEvent) {
+      yield ArticlesFetchLoading();
+      try {
+        final List<Article> articles =
+            await _articlesRepository.fetchArticles(_firestoreService);
+        yield ArticlesFetchComplete(articles);
+      } on SocketException {
+        yield ArticlesFetchError('No internet');
+      } on HttpException {
+        yield ArticlesFetchError('No Service found');
+      } on FormatException {
+        yield ArticlesFetchError('invalid response format');
+      } catch (e) {
+        yield ArticlesFetchError(e.toString());
+      }
+    } else if (event is FetchArticleByQueryEvent) {
       yield ArticlesFetchLoading();
       try {
         final List<Article> articles =

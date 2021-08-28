@@ -7,6 +7,6 @@ const String categories = 'wp-json/wp/v2/categories';
 const String getPostsByCategoryId =
     '/posts?per_page=100&categories='; //give category id after =
 
-const String getMediaEndpoint = 'wp-json/wp/v2/media';
+const String searchArticles = '/posts?search=ios&_embed';
 
 const Map<String, dynamic> perPage100 = {'per_page': '100', '_embed': ''};

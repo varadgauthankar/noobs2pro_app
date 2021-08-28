@@ -17,6 +17,7 @@ void main() async {
   Hive.registerAdapter<Media>(MediaAdapter());
   await Hive.openBox<Article>(kArticlesBox);
   await Hive.openBox<int>(kSavedArticleBox);
+  await Hive.openBox<Article>(kSearchArticlesBox);
   runApp(MyApp());
 }
 

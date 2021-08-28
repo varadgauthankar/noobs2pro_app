@@ -42,3 +42,9 @@ const TextStyle sloganStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontFamily: 'Poppins',
 );
+
+const TextStyle searchPageTop = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'Poppins',
+);

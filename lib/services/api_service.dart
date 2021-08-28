@@ -34,6 +34,34 @@ class ApiService {
     }
   }
 
+  static Future<List<Article>> getPostsBySearchQuery(String query) async {
+    try {
+      final url = Uri.https(
+        baseUrl,
+        allPostsEndpoint,
+        {'search': query, '_embed': ''},
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final articles = jsonDecode(response.body);
+
+        final List<Article> articlesList = [];
+
+        for (final article in articles) {
+          articlesList.add(Article.fromJson(article as Map<String, dynamic>));
+        }
+
+        return articlesList;
+      } else {
+        throw Exception('failed');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   static Future<List<Article>> getPostsByCategory(int id) async {
     try {
       final url = Uri.parse(baseUrl + getPostsByCategoryId + id.toString());
@@ -48,24 +76,6 @@ class ApiService {
           articlesList.add(Article.fromJson(article as Map<String, dynamic>));
         }
         return articlesList;
-      } else {
-        throw Exception('failed');
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  static Future<Media> getMediaById(int id) async {
-    try {
-      final url = Uri.https(baseUrl, '$getMediaEndpoint/$id');
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final mediaJson = jsonDecode(response.body);
-
-        final Media media = Media.fromJson(mediaJson as Map<String, dynamic>);
-        return media;
       } else {
         throw Exception('failed');
       }

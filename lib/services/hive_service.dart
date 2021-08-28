@@ -4,16 +4,30 @@ import 'package:noobs2pro_app/models/article.dart';
 
 class HiveService {
   Box<Article> allArticlBox = Hive.box<Article>(kArticlesBox);
+  Box<Article> searcgArticlBox = Hive.box<Article>(kSearchArticlesBox);
   Box<int> savedArticlebox = Hive.box<int>(kSavedArticleBox);
 
   void insertArticle(Article article) {
     allArticlBox.add(article);
   }
 
+  void insertSearchedArticle(Article article) {
+    searcgArticlBox.add(article);
+  }
+
   List<Article> getArticles() {
     final List<Article> articlesList = [];
 
     for (final article in allArticlBox.values.toList()) {
+      articlesList.add(article);
+    }
+    return articlesList;
+  }
+
+  List<Article> getSearchedArticles() {
+    final List<Article> articlesList = [];
+
+    for (final article in searcgArticlBox.values.toList()) {
       articlesList.add(article);
     }
     return articlesList;

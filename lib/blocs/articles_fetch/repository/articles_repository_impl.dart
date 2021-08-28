@@ -13,8 +13,6 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
     final List<dynamic> ids =
         await fireStore.getSavedArticleIds() as List<dynamic>;
 
-    print(ids);
-
     final List<Article> articles = await ApiService.getAllPosts();
 
     await _hiveService.allArticlBox.clear();
@@ -28,5 +26,27 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
       }
     }
     return _hiveService.getArticles();
+  }
+
+  @override
+  Future<List<Article>> fetchArticlesByQuery(FirestoreService fireStore,
+      {required String query}) async {
+    final List<dynamic> ids =
+        await fireStore.getSavedArticleIds() as List<dynamic>;
+
+    final List<Article> articles =
+        await ApiService.getPostsBySearchQuery(query);
+
+    await _hiveService.allArticlBox.clear();
+
+    for (final Article article in articles) {
+      // final List<dynamic> i = ids as List<dynamic>;
+      if (ids.contains(article.id)) {
+        _hiveService.insertSearchedArticle(article..isSaved = true);
+      } else {
+        _hiveService.insertSearchedArticle(article);
+      }
+    }
+    return _hiveService.getSearchedArticles();
   }
 }
