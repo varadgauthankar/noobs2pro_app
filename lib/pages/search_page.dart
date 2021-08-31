@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
 import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/pages/pages.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
@@ -54,6 +55,16 @@ class _SearchPageState extends State<SearchPage> {
                 hintText: 'Search',
                 suffixIcon: Icon(EvaIcons.searchOutline),
               ),
+              onFieldSubmitted: (text) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SearchedArticlePaged(
+                      query: text,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           const Padding(

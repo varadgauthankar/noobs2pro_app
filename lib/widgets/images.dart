@@ -4,12 +4,13 @@ Widget buildNetworkImage(
   ImageProvider<Object> image, {
   double? height,
   double? width,
+  double? borderRadius,
 }) {
   return Container(
     height: height ?? 200,
     width: width ?? double.maxFinite,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(borderRadius ?? 12),
       image: DecorationImage(
         fit: BoxFit.fill,
         image: image,
@@ -21,12 +22,13 @@ Widget buildNetworkImage(
 Widget buildPlaceholderImage({
   double? height,
   double? width,
+  double? borderRadius,
 }) {
   return Container(
     height: height ?? 200,
     width: width ?? double.maxFinite,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(borderRadius ?? 12),
       image: const DecorationImage(
         fit: BoxFit.fill,
         image: AssetImage('assets/images/placeholder.png'),

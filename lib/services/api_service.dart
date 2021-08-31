@@ -39,7 +39,7 @@ class ApiService {
       final url = Uri.https(
         baseUrl,
         allPostsEndpoint,
-        {'search': query, '_embed': ''},
+        {'search': query, 'per_page': '20', '_embed': ''},
       );
 
       final response = await http.get(url);

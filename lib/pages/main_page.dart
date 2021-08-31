@@ -57,13 +57,29 @@ class _MainPageState extends State<MainPage> {
             currentNavBarIndex = index;
           });
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(EvaIcons.homeOutline), label: 'Home'),
+            icon: Icon(
+              currentNavBarIndex == 0 ? EvaIcons.home : EvaIcons.homeOutline,
+            ),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(EvaIcons.searchOutline), label: 'Search'),
+            icon: Icon(
+              currentNavBarIndex == 1
+                  ? EvaIcons.search
+                  : EvaIcons.searchOutline,
+            ),
+            label: 'Search',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(EvaIcons.bookmarkOutline), label: 'Saved'),
+            icon: Icon(
+              currentNavBarIndex == 2
+                  ? EvaIcons.bookmark
+                  : EvaIcons.bookmarkOutline,
+            ),
+            label: 'Saved',
+          ),
         ],
       ),
     );

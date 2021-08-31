@@ -10,12 +10,10 @@ import 'package:noobs2pro_app/widgets/images.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ArticlePage extends StatelessWidget {
-  final Size? screenDimention;
   final Article _article;
-  ArticlePage(this._article, {Key? key, this.screenDimention})
-      : super(key: key);
+  ArticlePage(this._article, {Key? key}) : super(key: key);
 
-  HtmlUnescape unEscapedString = HtmlUnescape();
+  final HtmlUnescape unEscapedString = HtmlUnescape();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +22,7 @@ class ArticlePage extends StatelessWidget {
         title: Text(_article.category!),
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(12.0),
         children: [
           Column(
@@ -55,12 +54,6 @@ class ArticlePage extends StatelessWidget {
               Text(getFormattedDate(_article.date!))
             ],
           ),
-          // const Divider(
-          //   indent: 12,
-          //   endIndent: 12,
-          //   thickness: 1,
-          // ),
-          // spacer(height: 6.0),
           Html(
             data: _article.content,
             onLinkTap: (url, context, attributes, element) {

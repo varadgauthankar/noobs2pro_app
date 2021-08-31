@@ -38,11 +38,16 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       } catch (e) {
         yield ArticlesFetchError(e.toString());
       }
-    } else if (event is FetchArticleByQueryEvent) {
+    }
+    // get article by query
+    else if (event is FetchArticleByQueryEvent) {
       yield ArticlesFetchLoading();
       try {
         final List<Article> articles =
-            await _articlesRepository.fetchArticles(_firestoreService);
+            await _articlesRepository.fetchArticlesByQuery(
+          _firestoreService,
+          query: event.query,
+        );
         yield ArticlesFetchComplete(articles);
       } on SocketException {
         yield ArticlesFetchError('No internet');

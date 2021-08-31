@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
       ArticlesRepositoryImpl(),
       firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '',
     );
+
     _articlesBloc?.add(FetchArticlesEvent());
   }
 

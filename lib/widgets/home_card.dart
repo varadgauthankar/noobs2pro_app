@@ -21,7 +21,7 @@ class HomeCard extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  HtmlUnescape unEscapedString = HtmlUnescape();
+  final HtmlUnescape unEscapedString = HtmlUnescape();
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +40,7 @@ class HomeCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ArticlePage(
-                  _article,
-                  screenDimention: _screenDimention,
-                ),
+                builder: (context) => ArticlePage(_article),
               ),
             );
           },
@@ -57,10 +54,9 @@ class HomeCard extends StatelessWidget {
                   child: CachedNetworkImage(
                     fit: BoxFit.fill,
                     imageUrl: _article.featuredMedia!.medium!,
-                    placeholder: (context, url) => buildPlaceholderImage(),
+                    placeholder: (context, _) => buildPlaceholderImage(),
                     imageBuilder: (context, image) => buildNetworkImage(image),
-                    errorWidget: (context, url, error) =>
-                        buildPlaceholderImage(),
+                    errorWidget: (context, _, err) => buildPlaceholderImage(),
                   ),
                 ),
                 spacer(height: 6.0),

@@ -37,7 +37,7 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
     final List<Article> articles =
         await ApiService.getPostsBySearchQuery(query);
 
-    await _hiveService.allArticlBox.clear();
+    await _hiveService.searcgArticlBox.clear();
 
     for (final Article article in articles) {
       // final List<dynamic> i = ids as List<dynamic>;
