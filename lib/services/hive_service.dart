@@ -5,7 +5,7 @@ import 'package:noobs2pro_app/models/article.dart';
 class HiveService {
   Box<Article> allArticlBox = Hive.box<Article>(kArticlesBox);
   Box<Article> searcgArticlBox = Hive.box<Article>(kSearchArticlesBox);
-  Box<int> savedArticlebox = Hive.box<int>(kSavedArticleBox);
+  Box<int> savedArticleIdBox = Hive.box<int>(kSavedArticleBox);
 
   void insertArticle(Article article) {
     allArticlBox.add(article);
@@ -35,12 +35,12 @@ class HiveService {
 
   void saveArticle(Article article, dynamic key) {
     allArticlBox.put(key, article..isSaved = true);
-    savedArticlebox.add(article.id!);
+    savedArticleIdBox.add(article.id!);
   }
 
   void unSaveArticle(Article article, dynamic key) {
     allArticlBox.put(key, article..isSaved = false);
-    savedArticlebox
-        .deleteAt(savedArticlebox.values.toList().indexOf(article.id!));
+    savedArticleIdBox
+        .deleteAt(savedArticleIdBox.values.toList().indexOf(article.id!));
   }
 }

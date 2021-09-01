@@ -45,6 +45,7 @@ class Article extends HiveObject {
     featuredMedia = Media.fromJson(
         json['_embedded']['wp:featuredmedia'][0] as Map<String, dynamic>);
     category = json['_embedded']['wp:term'][0][0]['name'] as String;
+    isSaved = false;
   }
 
   Article copyWith({bool isSaved = false}) {

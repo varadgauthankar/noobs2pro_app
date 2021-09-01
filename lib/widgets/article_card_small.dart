@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:html_unescape/html_unescape_small.dart';
+import 'package:noobs2pro_app/blocs/article_saving/bloc/article_saving_bloc.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/pages/article_apge.dart';
+import 'package:noobs2pro_app/services/firebase_auth.dart';
+import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/images.dart';
@@ -15,6 +19,8 @@ class ArticleCardSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ArticleSavingBloc _bloc = ArticleSavingBloc(
+        firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '');
     final screenDimention = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
@@ -65,9 +71,40 @@ class ArticleCardSmall extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 4.0),
-                    child: Text(
-                      '${getFormattedDate(_article.date!)} - ${_article.category}',
-                      style: Theme.of(context).textTheme.caption,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${getFormattedDate(_article.date!)} - ${_article.category}',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Wrap(
+                          children: [
+                            InkWell(
+                              borderRadius: BorderRadius.circular(50),
+                              onTap: () {
+                                _article.isSaved != true
+                                    ? _bloc.add(ArticleSaveEvent(_article))
+                                    : _bloc.add(ArticleUnSaveEvent(_article));
+                              },
+                              child: Icon(
+                                _article.isSaved == true
+                                    ? EvaIcons.bookmark
+                                    : EvaIcons.bookmarkOutline,
+                                color: _article.isSaved == true
+                                    ? kAccentColor
+                                    : kBlack,
+                              ),
+                            ),
+                            spacer(width: 6.0),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(50),
+                              onTap: () {},
+                              child: Icon(Icons.share),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ],

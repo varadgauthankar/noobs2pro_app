@@ -53,7 +53,7 @@ class HomeCard extends StatelessWidget {
                   tag: 'image${_article.id}',
                   child: CachedNetworkImage(
                     fit: BoxFit.fill,
-                    imageUrl: _article.featuredMedia!.medium!,
+                    imageUrl: _article.featuredMedia?.medium ?? '',
                     placeholder: (context, _) => buildPlaceholderImage(),
                     imageBuilder: (context, image) => buildNetworkImage(image),
                     errorWidget: (context, _, err) => buildPlaceholderImage(),
