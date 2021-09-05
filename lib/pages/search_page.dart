@@ -70,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
           const Padding(
             padding: EdgeInsets.only(left: 12, bottom: 6),
             child: Text(
-              'Top Posts',
+              'Explore',
               style: searchPageTop,
             ),
           ),
@@ -105,7 +105,9 @@ class _SearchPageState extends State<SearchPage> {
               padding: const EdgeInsets.all(6),
               itemCount: box.values.length,
               itemBuilder: (context, index) {
-                final Article _article = box.values.toList().elementAt(index);
+                final List<Article> articles = box.values.toList();
+                // articles.shuffle();
+                final Article _article = articles.elementAt(index);
                 return HomeCard(
                   _article,
                   _screenDimention,

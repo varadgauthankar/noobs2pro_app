@@ -11,7 +11,7 @@ class ApiService {
       final url = Uri.https(
         baseUrl,
         allPostsEndpoint,
-        {'per_page': '100', '_embed': ''},
+        {'per_page': '15', '_embed': ''},
       );
 
       final response = await http.get(url);
@@ -97,6 +97,8 @@ class ApiService {
         for (final category in categories) {
           categoryList.add(Category.fromJson(category as Map<String, dynamic>));
         }
+
+        print(categoryList);
         return categoryList;
       } else {
         throw Exception('failed');

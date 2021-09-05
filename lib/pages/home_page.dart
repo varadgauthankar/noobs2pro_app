@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '',
     );
 
-    _articlesBloc?.add(FetchArticlesEvent());
+    // _articlesBloc?.add(FetchArticlesEvent());
   }
 
   @override
@@ -48,6 +48,8 @@ class _HomePageState extends State<HomePage> {
             }
           },
           builder: (context, state) {
+            print('===============state $state');
+
             return buildListOfArticles(screenDimention, state);
           },
         ),
@@ -62,7 +64,10 @@ class _HomePageState extends State<HomePage> {
       builder: (context, Box<Article> box, _) {
         if (state is ArticlesFetchLoading) {
           return const CenteredCircularProgressBar();
-        } else if (state is ArticlesFetchComplete) {
+        } else if (state is ArticlesFetchError) {
+          //Todo: add graphics
+          return const Text('Something went wrong');
+        } else {
           return ListView.builder(
             padding: const EdgeInsets.all(6),
             itemCount: box.values.length,
@@ -74,11 +79,6 @@ class _HomePageState extends State<HomePage> {
               );
             },
           );
-        } else if (state is ArticlesFetchError) {
-          //Todo: add graphics
-          return const Text('Something went wrong');
-        } else {
-          return const SizedBox.shrink();
         }
       },
     );
