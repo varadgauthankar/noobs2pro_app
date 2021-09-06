@@ -18,6 +18,8 @@ void main() async {
   await Hive.openBox<Article>(kArticlesBox);
   await Hive.openBox<int>(kSavedArticleBox);
   await Hive.openBox<Article>(kSearchArticlesBox);
+  await Hive.openBox<Article>(kCategoryArticlesBox);
+  await Hive.openBox<Article>(kSavedArticlesObjectBox);
   runApp(MyApp());
 }
 

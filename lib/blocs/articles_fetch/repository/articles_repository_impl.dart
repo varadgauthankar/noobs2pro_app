@@ -49,4 +49,29 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
     }
     return _hiveService.getSearchedArticles();
   }
+
+  @override
+  Future<List<Article>> fetchArticlesByCategory(
+      FirestoreService fireStore, int id) async {
+    final List<dynamic> ids =
+        await fireStore.getSavedArticleIds() as List<dynamic>;
+
+    final List<Article> articles = await ApiService.getPostsByCategory(id);
+    final List<Article> newArticles = [];
+    await _hiveService.categoryArticlesBox.clear();
+
+    for (final Article article in articles) {
+      // final List<dynamic> i = ids as List<dynamic>;
+      if (ids.contains(article.id)) {
+        newArticles.add(article..isSaved = true);
+      } else {
+        newArticles.add(article);
+
+        // _hiveService.insertCategoryArticles(article);
+      }
+    }
+    // return _hiveService.getCategoryArticles();
+
+    return newArticles;
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:noobs2pro_app/utils/firebase_auth_error_codes.dart';
 
 class FirebaseAuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;

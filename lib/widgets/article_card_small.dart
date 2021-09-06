@@ -11,10 +11,17 @@ import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/images.dart';
 
-class ArticleCardSmall extends StatelessWidget {
+class ArticleCardSmall extends StatefulWidget {
   final Article _article;
-  ArticleCardSmall(this._article, {Key? key}) : super(key: key);
+  final bool isFromCategory;
+  const ArticleCardSmall(this._article, {Key? key, this.isFromCategory = false})
+      : super(key: key);
 
+  @override
+  _ArticleCardSmallState createState() => _ArticleCardSmallState();
+}
+
+class _ArticleCardSmallState extends State<ArticleCardSmall> {
   final HtmlUnescape unEscapedString = HtmlUnescape();
 
   @override
@@ -27,7 +34,7 @@ class ArticleCardSmall extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ArticlePage(_article),
+            builder: (context) => ArticlePage(widget._article),
           ),
         );
       },
@@ -38,10 +45,10 @@ class ArticleCardSmall extends StatelessWidget {
         child: Row(
           children: [
             Hero(
-              tag: 'image${_article.id}',
+              tag: 'image${widget._article.id}',
               child: CachedNetworkImage(
                 fit: BoxFit.fill,
-                imageUrl: _article.featuredMedia!.thumbnail!,
+                imageUrl: widget._article.featuredMedia!.thumbnail!,
                 placeholder: (context, _) => buildPlaceholderImage(
                   width: screenDimention.height * .12,
                   borderRadius: 8.0,
@@ -64,7 +71,7 @@ class ArticleCardSmall extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    unEscapedString.convert(_article.title!),
+                    unEscapedString.convert(widget._article.title!),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: articleTitle,
@@ -74,24 +81,33 @@ class ArticleCardSmall extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${getFormattedDate(_article.date!)} - ${_article.category}',
-                          style: Theme.of(context).textTheme.caption,
-                        ),
+                        if (widget.isFromCategory)
+                          Text(
+                            getFormattedDate(widget._article.date!),
+                            style: Theme.of(context).textTheme.caption,
+                          )
+                        else
+                          Text(
+                            '${getFormattedDate(widget._article.date!)} - ${widget._article.category}',
+                            style: Theme.of(context).textTheme.caption,
+                          ),
                         Wrap(
                           children: [
                             InkWell(
                               borderRadius: BorderRadius.circular(50),
                               onTap: () {
-                                _article.isSaved != true
-                                    ? _bloc.add(ArticleSaveEvent(_article))
-                                    : _bloc.add(ArticleUnSaveEvent(_article));
+                                setState(() {});
+                                widget._article.isSaved != true
+                                    ? _bloc
+                                        .add(ArticleSaveEvent(widget._article))
+                                    : _bloc.add(
+                                        ArticleUnSaveEvent(widget._article));
                               },
                               child: Icon(
-                                _article.isSaved == true
+                                widget._article.isSaved == true
                                     ? EvaIcons.bookmark
                                     : EvaIcons.bookmarkOutline,
-                                color: _article.isSaved == true
+                                color: widget._article.isSaved == true
                                     ? kAccentColor
                                     : kBlack,
                               ),

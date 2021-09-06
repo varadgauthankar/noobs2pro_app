@@ -6,10 +6,13 @@ import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repositor
 import 'package:noobs2pro_app/blocs/category/categories_fetch/bloc/category_bloc.dart';
 import 'package:noobs2pro_app/blocs/category/categories_fetch/repository/category_repository_impl.dart';
 import 'package:noobs2pro_app/models/category.dart';
+import 'package:noobs2pro_app/pages/category_articles_page.dart';
 import 'package:noobs2pro_app/pages/home_page.dart';
 import 'package:noobs2pro_app/pages/pages.dart';
 import 'package:noobs2pro_app/services/api_service.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
+import 'package:noobs2pro_app/utils/helpers.dart';
+import 'package:noobs2pro_app/utils/text_styles.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -21,9 +24,52 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentNavBarIndex = 0;
   ArticlesBloc? _articlesBloc;
-  CategoryBloc? _categoryBloc;
+  bool isThemeDark = false;
 
-  List<Category>? categories;
+  // TODO: fetch categories from api
+  // as of now categories are hard coded
+  List<Category> categories = [
+    Category(
+      name: 'Best Of',
+      id: 333,
+    ),
+    Category(
+      name: 'Best Settings Guide',
+      id: 332,
+    ),
+    Category(
+      name: 'Esport',
+      id: 4930,
+    ),
+    Category(
+      name: 'Featured',
+      id: 334,
+    ),
+    Category(
+      name: 'Game Reviews',
+      id: 13,
+    ),
+    Category(
+      name: 'Gameplay Guides',
+      id: 83,
+    ),
+    Category(
+      name: 'How To Guides',
+      id: 336,
+    ),
+    Category(
+      name: 'Mobile Esports',
+      id: 5939,
+    ),
+    Category(
+      name: 'Mobile Games',
+      id: 5941,
+    ),
+    Category(
+      name: 'Android And IOS',
+      id: 2652,
+    ),
+  ];
 
   @override
   void initState() {
@@ -32,8 +78,6 @@ class _MainPageState extends State<MainPage> {
       firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '',
     );
     _articlesBloc?.add(FetchArticlesEvent());
-
-    _categoryBloc = CategoryBloc(CategoryRepositoryImpl());
 
     super.initState();
   }
@@ -60,8 +104,6 @@ class _MainPageState extends State<MainPage> {
             return IconButton(
               icon: const Icon(EvaIcons.menu),
               onPressed: () {
-                _categoryBloc?.add(GetCategoriesEvent());
-
                 Scaffold.of(context).openDrawer();
               },
               tooltip: 'Open drawer',
@@ -69,45 +111,66 @@ class _MainPageState extends State<MainPage> {
           },
         ),
       ),
-      drawer: BlocProvider(
-        create: (context) => _categoryBloc!,
-        child: Drawer(
-          child: ListView(
-            children: [
-              UserAccountsDrawerHeader(
-                currentAccountPicture: const CircleAvatar(),
-                accountName: const Text('Pro Gamer'),
-                accountEmail:
-                    Text(FirebaseAuthService().getCurrentUser()!.email!),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+              currentAccountPicture: const CircleAvatar(),
+              accountName: const Text('Pro Gamer'),
+              accountEmail:
+                  Text(FirebaseAuthService().getCurrentUser()!.email!),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 16.0, top: 10.0),
+              child: Text(
+                'CATEGORIES',
+                style: categoryTitle,
               ),
-              Text('CATEGORIES'),
-              BlocConsumer<CategoryBloc, CategoryState>(
-                listener: (context, state) {
-                  if (state is CategoryStateComplete) {
-                    setState(() {
-                      categories = state.categories;
-                      print(categories);
-                    });
-                  } else if (state is CategoryStateError) {
-                    print('errrrrrrrrrrrrrrrr');
-                  }
-                },
-                builder: (context, state) {
-                  return Column(
-                    children: categories!
-                        .map((e) => ListTile(
-                              title: Text(e.name!),
-                            ))
-                        .toList(),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Android and IOS'),
-                onTap: () {},
-              )
-            ],
-          ),
+            ),
+            Column(
+              children: categories
+                  .map((e) => ListTile(
+                        visualDensity: const VisualDensity(vertical: -4),
+                        title: Text(
+                          e.name!,
+                          style: categoryItems,
+                        ),
+                        onTap: () => goToPage(
+                            context, CategoryArticlesPage(categoryId: e.id!)),
+                      ))
+                  .toList(),
+            ),
+            const Divider(),
+            Column(
+              children: [
+                SwitchListTile(
+                    title: const Text(
+                      'Dark Mode',
+                      style: categoryItems,
+                    ),
+                    value: isThemeDark,
+                    onChanged: (val) {
+                      setState(() {
+                        isThemeDark = val;
+                      });
+                    }),
+                const Divider(),
+                ListTile(
+                  // leading: Icon(EvaIcons.logOut),
+                  visualDensity: const VisualDensity(vertical: -4),
+                  trailing: const Icon(EvaIcons.logOut),
+                  title: const Text(
+                    'LOG OUT',
+                    style: categoryItems,
+                  ),
+                  selected: true,
+                  onTap: () {
+                    FirebaseAuthService().signOut();
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       body: pages[currentNavBarIndex],

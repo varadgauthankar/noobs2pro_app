@@ -1,6 +1,9 @@
 import 'package:hive_flutter/adapters.dart';
+import 'package:uuid/uuid.dart';
 
 part 'article.g.dart';
+
+Uuid uuid = Uuid();
 
 @HiveType(typeId: 0)
 class Article extends HiveObject {
@@ -22,6 +25,8 @@ class Article extends HiveObject {
   Media? featuredMedia;
   @HiveField(8)
   bool? isSaved;
+  @HiveField(9)
+  String? uid;
 
   Article({
     this.id,
@@ -33,6 +38,7 @@ class Article extends HiveObject {
     this.category,
     this.featuredMedia,
     this.isSaved = false,
+    this.uid,
   });
 
   Article.fromJson(Map<String, dynamic> json) {
@@ -46,6 +52,7 @@ class Article extends HiveObject {
         json['_embedded']['wp:featuredmedia'][0] as Map<String, dynamic>);
     category = json['_embedded']['wp:term'][0][0]['name'] as String;
     isSaved = false;
+    uid = uuid.v4();
   }
 
   Article copyWith({bool isSaved = false}) {
@@ -59,6 +66,7 @@ class Article extends HiveObject {
       featuredMedia: featuredMedia,
       category: category,
       isSaved: isSaved,
+      uid: uid,
     );
   }
 }

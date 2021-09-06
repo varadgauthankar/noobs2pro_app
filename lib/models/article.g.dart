@@ -25,13 +25,15 @@ class ArticleAdapter extends TypeAdapter<Article> {
       shortContent: fields[5] as String?,
       category: fields[6] as String?,
       featuredMedia: fields[7] as Media?,
+      isSaved: fields[8] as bool?,
+      uid: fields[9] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Article obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -47,7 +49,11 @@ class ArticleAdapter extends TypeAdapter<Article> {
       ..writeByte(6)
       ..write(obj.category)
       ..writeByte(7)
-      ..write(obj.featuredMedia);
+      ..write(obj.featuredMedia)
+      ..writeByte(8)
+      ..write(obj.isSaved)
+      ..writeByte(9)
+      ..write(obj.uid);
   }
 
   @override

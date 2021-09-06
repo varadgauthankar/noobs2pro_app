@@ -11,7 +11,7 @@ class ApiService {
       final url = Uri.https(
         baseUrl,
         allPostsEndpoint,
-        {'per_page': '15', '_embed': ''},
+        {'per_page': '100', '_embed': ''},
       );
 
       final response = await http.get(url);
@@ -39,7 +39,7 @@ class ApiService {
       final url = Uri.https(
         baseUrl,
         allPostsEndpoint,
-        {'search': query, 'per_page': '20', '_embed': ''},
+        {'search': query, 'per_page': '100', '_embed': ''},
       );
 
       final response = await http.get(url);
@@ -64,7 +64,13 @@ class ApiService {
 
   static Future<List<Article>> getPostsByCategory(int id) async {
     try {
-      final url = Uri.parse(baseUrl + getPostsByCategoryId + id.toString());
+      // final url = Uri.parse(baseUrl + getPostsByCategoryId + id.toString());
+      final url = Uri.https(
+        baseUrl,
+        allPostsEndpoint,
+        {'per_page': '100', 'categories': id.toString(), '_embed': ''},
+      );
+
       final response = await http.get(url);
 
       if (response.statusCode == 200) {

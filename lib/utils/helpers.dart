@@ -40,3 +40,7 @@ bool isThemeDark(BuildContext context) {
 bool isValidEmail(String? input) {
   return RegExp(r'^\S+@\S+$').hasMatch(input!);
 }
+
+void goToPage(BuildContext context, Widget page) {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+}

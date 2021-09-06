@@ -48,3 +48,13 @@ const TextStyle searchPageTop = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'Poppins',
 );
+
+const TextStyle categoryTitle = TextStyle(
+  fontSize: 12,
+  fontFamily: 'Poppins',
+);
+
+const TextStyle categoryItems = TextStyle(
+  fontSize: 14,
+  fontFamily: 'Poppins',
+);

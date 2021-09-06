@@ -12,3 +12,9 @@ class FetchArticleByQueryEvent extends ArticlesEvent {
   final String query;
   FetchArticleByQueryEvent(this.query);
 }
+
+// category articles
+class FetchCategoryArticlesEvent extends ArticlesEvent {
+  final int id;
+  FetchCategoryArticlesEvent(this.id);
+}
