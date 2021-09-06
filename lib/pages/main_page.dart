@@ -5,6 +5,7 @@ import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
 import 'package:noobs2pro_app/blocs/category/categories_fetch/bloc/category_bloc.dart';
 import 'package:noobs2pro_app/blocs/category/categories_fetch/repository/category_repository_impl.dart';
+import 'package:noobs2pro_app/blocs/theme_bloc/bloc/bloc/theme_bloc.dart';
 import 'package:noobs2pro_app/constants/strings.dart';
 import 'package:noobs2pro_app/models/category.dart';
 import 'package:noobs2pro_app/pages/category_articles_page.dart';
@@ -25,7 +26,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentNavBarIndex = 0;
   ArticlesBloc? _articlesBloc;
-  bool isThemeDark = false;
+  bool isThemeDarkf = false;
 
   // TODO: fetch categories from api
   // as of now categories are hard coded
@@ -148,11 +149,11 @@ class _MainPageState extends State<MainPage> {
                       'Dark Mode',
                       style: categoryItems,
                     ),
-                    value: isThemeDark,
+                    value: isThemeDark(context),
                     onChanged: (val) {
-                      setState(() {
-                        isThemeDark = val;
-                      });
+                      BlocProvider.of<ThemeBloc>(context).add(ThemeChanged(
+                        isThemeDark(context) ? ThemeMode.light : ThemeMode.dark,
+                      ));
                     }),
                 const Divider(),
                 ListTile(
