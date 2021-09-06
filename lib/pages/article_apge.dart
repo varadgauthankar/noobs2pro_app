@@ -8,6 +8,7 @@ import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/images.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArticlePage extends StatelessWidget {
   final Article _article;
@@ -57,10 +58,10 @@ class ArticlePage extends StatelessWidget {
           Html(
             data: _article.content,
             onLinkTap: (url, context, attributes, element) {
-              //TODO: launch url
+              launch(url!);
             },
             onImageTap: (url, context, attributes, element) {
-              //open image in webview, or launch image in browser, or any other logic here
+              //might do someting with image over here
             },
             customImageRenders: {
               networkSourceMatcher(): myNetworkImageRender(),
@@ -76,7 +77,8 @@ class ArticlePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        mini: true,
+        onPressed: () => shareArticle(_article),
         child: const Icon(Icons.share),
       ),
     );

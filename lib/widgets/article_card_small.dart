@@ -115,8 +115,8 @@ class _ArticleCardSmallState extends State<ArticleCardSmall> {
                             spacer(width: 6.0),
                             InkWell(
                               borderRadius: BorderRadius.circular(50),
-                              onTap: () {},
-                              child: Icon(Icons.share),
+                              onTap: () => shareArticle(widget._article),
+                              child: const Icon(Icons.share),
                             ),
                           ],
                         )

@@ -3,4 +3,6 @@ String kDescription =
 
 String kAppName = 'Noobs2pro';
 
-String kSlogan = 'Where noobs become pro';
+String kSlogan = 'Lorem Ipsum Dolor Sit';
+
+String kAppLink = 'https://play.google.com/';

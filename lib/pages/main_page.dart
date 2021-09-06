@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
-import 'package:noobs2pro_app/blocs/category/categories_fetch/bloc/category_bloc.dart';
-import 'package:noobs2pro_app/blocs/category/categories_fetch/repository/category_repository_impl.dart';
 import 'package:noobs2pro_app/blocs/theme_bloc/bloc/bloc/theme_bloc.dart';
 import 'package:noobs2pro_app/constants/strings.dart';
 import 'package:noobs2pro_app/models/category.dart';
 import 'package:noobs2pro_app/pages/category_articles_page.dart';
 import 'package:noobs2pro_app/pages/home_page.dart';
 import 'package:noobs2pro_app/pages/pages.dart';
-import 'package:noobs2pro_app/services/api_service.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
@@ -27,12 +24,13 @@ class _MainPageState extends State<MainPage> {
   int currentNavBarIndex = 0;
   ArticlesBloc? _articlesBloc;
 
+  //TODO: refactor this page code
   // TODO: fetch categories from api
   // as of now categories are hard coded
   List<Category> categories = [
     Category(
       name: 'Best Of',
-      id: 333,
+      id: 333, // wordpress category id
     ),
     Category(
       name: 'Best Settings Guide',
@@ -169,7 +167,42 @@ class _MainPageState extends State<MainPage> {
                   ),
                   selected: true,
                   onTap: () {
-                    FirebaseAuthService().signOut();
+                    Navigator.pop(context);
+
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Log out?'),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('NO'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  FirebaseAuthService().signOut().then(
+                                    (_) {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AuthMainPage(),
+                                          ),
+                                          (route) => false);
+                                    },
+                                  );
+                                },
+                                child: const Text('YES'),
+                              ),
+                            ],
+                          );
+                        });
                   },
                 ),
               ],

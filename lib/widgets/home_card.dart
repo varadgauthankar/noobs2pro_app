@@ -109,7 +109,7 @@ class _HomeCardState extends State<HomeCard> {
                         ),
                         IconButton(
                           icon: const Icon(Icons.share_outlined),
-                          onPressed: () {},
+                          onPressed: () => shareArticle(widget._article),
                           visualDensity: VisualDensity.compact,
                         ),
                       ],

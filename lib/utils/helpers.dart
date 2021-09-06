@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:noobs2pro_app/constants/strings.dart';
+import 'package:noobs2pro_app/models/article.dart';
+import 'package:share/share.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMySnackBar(
     BuildContext context,
@@ -43,4 +46,17 @@ bool isValidEmail(String? input) {
 
 void goToPage(BuildContext context, Widget page) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+}
+
+void shareArticle(Article article) {
+  Share.share(
+    '''
+    Check out this article from Noobs2pro.com
+    ${article.title}
+    ${article.link}
+    
+    Download the app: $kAppLink
+    ''',
+    subject: 'Article from Noobs2pro',
+  );
 }
