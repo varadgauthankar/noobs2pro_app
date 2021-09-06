@@ -43,6 +43,11 @@ ThemeData dark = ThemeData(
   scaffoldBackgroundColor: kGrey,
   applyElevationOverlayColor: true,
 
+  switchTheme: SwitchThemeData(
+    thumbColor: MaterialStateProperty.all(kAccentColor),
+    trackColor: MaterialStateProperty.all(kAccentColor.withOpacity(0.4)),
+  ),
+
   // AppBar
   appBarTheme: const AppBarTheme(
     elevation: 0,

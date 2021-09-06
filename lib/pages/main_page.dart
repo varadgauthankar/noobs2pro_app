@@ -26,7 +26,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentNavBarIndex = 0;
   ArticlesBloc? _articlesBloc;
-  bool isThemeDarkf = false;
 
   // TODO: fetch categories from api
   // as of now categories are hard coded
@@ -137,7 +136,11 @@ class _MainPageState extends State<MainPage> {
                           style: categoryItems,
                         ),
                         onTap: () => goToPage(
-                            context, CategoryArticlesPage(categoryId: e.id!)),
+                            context,
+                            CategoryArticlesPage(
+                              categoryTitle: e.name!,
+                              categoryId: e.id!,
+                            )),
                       ))
                   .toList(),
             ),

@@ -12,9 +12,11 @@ import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 
 class CategoryArticlesPage extends StatefulWidget {
   final int categoryId;
+  final String categoryTitle;
   const CategoryArticlesPage({
     Key? key,
     required this.categoryId,
+    required this.categoryTitle,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('getAppBarName()'),
+        title: Text(widget.categoryTitle),
       ),
       body: BlocProvider(
         create: (context) => _articlesBloc!,
