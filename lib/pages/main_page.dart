@@ -5,6 +5,7 @@ import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
 import 'package:noobs2pro_app/blocs/category/categories_fetch/bloc/category_bloc.dart';
 import 'package:noobs2pro_app/blocs/category/categories_fetch/repository/category_repository_impl.dart';
+import 'package:noobs2pro_app/constants/strings.dart';
 import 'package:noobs2pro_app/models/category.dart';
 import 'package:noobs2pro_app/pages/category_articles_page.dart';
 import 'package:noobs2pro_app/pages/home_page.dart';
@@ -116,9 +117,8 @@ class _MainPageState extends State<MainPage> {
           children: [
             UserAccountsDrawerHeader(
               currentAccountPicture: const CircleAvatar(),
-              accountName: const Text('Pro Gamer'),
-              accountEmail:
-                  Text(FirebaseAuthService().getCurrentUser()!.email!),
+              accountName: Text(kAppName),
+              accountEmail: const Text('version: 1.0'),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 16.0, top: 10.0),

@@ -12,7 +12,7 @@ import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:html_unescape/html_unescape_small.dart';
 import 'package:noobs2pro_app/widgets/images.dart';
 
-class HomeCard extends StatelessWidget {
+class HomeCard extends StatefulWidget {
   final Article _article;
   final Size _screenDimention;
   HomeCard(
@@ -21,6 +21,11 @@ class HomeCard extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  @override
+  _HomeCardState createState() => _HomeCardState();
+}
+
+class _HomeCardState extends State<HomeCard> {
   final HtmlUnescape unEscapedString = HtmlUnescape();
 
   @override
@@ -40,7 +45,7 @@ class HomeCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ArticlePage(_article),
+                builder: (context) => ArticlePage(widget._article),
               ),
             );
           },
@@ -50,10 +55,10 @@ class HomeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Hero(
-                  tag: 'image${_article.id}',
+                  tag: 'image${widget._article.id}',
                   child: CachedNetworkImage(
                     fit: BoxFit.fill,
-                    imageUrl: _article.featuredMedia?.medium ?? '',
+                    imageUrl: widget._article.featuredMedia?.medium ?? '',
                     placeholder: (context, _) => buildPlaceholderImage(),
                     imageBuilder: (context, image) => buildNetworkImage(image),
                     errorWidget: (context, _, err) => buildPlaceholderImage(),
@@ -61,11 +66,11 @@ class HomeCard extends StatelessWidget {
                 ),
                 spacer(height: 6.0),
                 Hero(
-                  tag: 'title${_article.id}',
+                  tag: 'title${widget._article.id}',
                   child: Material(
                     color: ktransparent,
                     child: Text(
-                      unEscapedString.convert(_article.title!),
+                      unEscapedString.convert(widget._article.title!),
                       style: articleTitle,
                       textAlign: TextAlign.left,
                     ),
@@ -75,23 +80,30 @@ class HomeCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${getFormattedDate(_article.date!)} - ${_article.category}',
+                      '${getFormattedDate(widget._article.date!)} - ${widget._article.category}',
                       style: Theme.of(context).textTheme.caption,
                     ),
                     Wrap(
                       children: [
                         IconButton(
-                          color:
-                              _article.isSaved == true ? kAccentColor : kBlack,
+                          color: widget._article.isSaved == true
+                              ? kAccentColor
+                              : isThemeDark(context)
+                                  ? kWhite
+                                  : kBlack,
                           icon: Icon(
-                            _article.isSaved == true
+                            widget._article.isSaved == true
                                 ? EvaIcons.bookmark
                                 : EvaIcons.bookmarkOutline,
                           ),
                           onPressed: () {
-                            _article.isSaved != true
-                                ? _bloc.add(ArticleSaveEvent(_article))
-                                : _bloc.add(ArticleUnSaveEvent(_article));
+                            widget._article.isSaved != true
+                                ? _bloc.add(ArticleSaveEvent(widget._article))
+                                : _bloc
+                                    .add(ArticleUnSaveEvent(widget._article));
+
+                            //TODO: optimise this
+                            setState(() {});
                           },
                           visualDensity: VisualDensity.compact,
                         ),

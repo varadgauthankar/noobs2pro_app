@@ -23,6 +23,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   ArticlesBloc? _articlesBloc;
+  List<Article> shuffledArticleList = [];
 
   @override
   void initState() {
@@ -33,12 +34,13 @@ class _SearchPageState extends State<SearchPage> {
       firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '',
     );
     _articlesBloc?.add(FetchArticlesEvent());
+
+    shuffledArticleList = HiveService().allArticlBox.values.toList()..shuffle();
   }
 
   @override
   Widget build(BuildContext context) {
     final Size screenDimention = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,35 +95,29 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget buildListOfArticles(Size _screenDimention, ArticlesState state) {
-    final HiveService _hiveService = HiveService();
-    return ValueListenableBuilder(
-      valueListenable: _hiveService.allArticlBox.listenable(),
-      builder: (context, Box<Article> box, _) {
-        if (state is ArticlesFetchLoading) {
-          return const CenteredCircularProgressBar();
-        } else if (state is ArticlesFetchComplete) {
-          return Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(6),
-              itemCount: box.values.length,
-              itemBuilder: (context, index) {
-                final List<Article> articles = box.values.toList();
-                // articles.shuffle();
-                final Article _article = articles.elementAt(index);
-                return HomeCard(
-                  _article,
-                  _screenDimention,
-                );
-              },
-            ),
-          );
-        } else if (state is ArticlesFetchError) {
-          //Todo: add graphics
-          return const Text('Something went wrong');
-        } else {
-          return const SizedBox.shrink();
-        }
-      },
-    );
+    if (state is ArticlesFetchLoading) {
+      return const CenteredCircularProgressBar();
+    } else if (state is ArticlesFetchComplete) {
+      return Expanded(
+        child: ListView.builder(
+          padding: const EdgeInsets.all(6),
+          itemCount: state.articles.length,
+          itemBuilder: (context, index) {
+            final List<Article> articles = state.articles..shuffle();
+
+            final Article _article = articles.elementAt(index);
+            return HomeCard(
+              _article,
+              _screenDimention,
+            );
+          },
+        ),
+      );
+    } else if (state is ArticlesFetchError) {
+      //Todo: add graphics
+      return const Text('Something went wrong');
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }

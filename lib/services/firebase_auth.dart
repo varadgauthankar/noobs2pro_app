@@ -49,6 +49,10 @@ class FirebaseAuthService {
     await firebaseAuth.signOut();
   }
 
+  Future<void> forgetPassword(String email) async {
+    await firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
   // check signIn
   bool isSignedIn() {
     final currentUser = firebaseAuth.currentUser;

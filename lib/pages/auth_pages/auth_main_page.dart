@@ -55,7 +55,7 @@ class _AuthMainPageState extends State<AuthMainPage> {
                       ],
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
@@ -77,7 +77,6 @@ class _AuthMainPageState extends State<AuthMainPage> {
                           children: [
                             PrimaryButton(
                               heroTag: 'primary',
-                              child: const Text('Sign In'),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -87,10 +86,11 @@ class _AuthMainPageState extends State<AuthMainPage> {
                                 );
                               },
                               width: screenSize.width,
+                              child: const Text('SIGN IN'),
                             ),
                             spacer(height: 12.0),
                             SecondaryButton(
-                              text: 'Sign Up',
+                              text: 'SIGN UP',
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -101,21 +101,21 @@ class _AuthMainPageState extends State<AuthMainPage> {
                               },
                               width: screenSize.width,
                             ),
-                            spacer(height: 33.0),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: TextButton(
-                                onPressed: () {},
-                                style: TextButton.styleFrom(
-                                  primary: Colors.grey,
-                                  textStyle: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                child: const Text('Skip this'),
-                              ),
-                            )
+                            // spacer(height: 33.0),
+                            // Align(
+                            //   alignment: Alignment.bottomRight,
+                            //   child: TextButton(
+                            //     onPressed: () {},
+                            //     style: TextButton.styleFrom(
+                            //       primary: Colors.grey,
+                            //       textStyle: const TextStyle(
+                            //         fontSize: 16.0,
+                            //         fontWeight: FontWeight.w500,
+                            //       ),
+                            //     ),
+                            //     child: const Text('Skip this'),
+                            //   ),
+                            // )
                           ],
                         )
                       ],

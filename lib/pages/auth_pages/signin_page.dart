@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:noobs2pro_app/blocs/firebase_auth/sign_in/sign_in_bloc.dart';
 import 'package:noobs2pro_app/pages/pages.dart';
+import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/widgets/buttons/primary_button.dart';
@@ -127,7 +128,10 @@ class _SigninPageState extends State<SigninPage> {
                                     },
                                   ),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      FirebaseAuthService().forgetPassword(
+                                          'gvarad1601@gmail.com');
+                                    },
                                     child: const Text('Forgot Password?'),
                                   ),
                                 ],
@@ -150,7 +154,7 @@ class _SigninPageState extends State<SigninPage> {
                                       width: screenSize.width,
                                       child: state is SignInLoadingState
                                           ? const MyCircularProgress()
-                                          : const Text('Sign in'),
+                                          : const Text('SIGN IN'),
                                     );
                                   },
                                 ),

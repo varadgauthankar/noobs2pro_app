@@ -40,24 +40,24 @@ ThemeData dark = ThemeData(
   accentColor: kAccentColor,
   primarySwatch: Colors.deepOrange,
   brightness: Brightness.dark,
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: kGrey,
   applyElevationOverlayColor: true,
 
   // AppBar
   appBarTheme: const AppBarTheme(
     elevation: 0,
-    backgroundColor: Colors.white,
+    backgroundColor: kGrey,
     textTheme: TextTheme(
       headline6: TextStyle(
         fontWeight: FontWeight.bold,
         fontFamily: 'Poppins',
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 22,
         fontStyle: FontStyle.italic,
       ),
     ),
     iconTheme: IconThemeData(
-      color: Colors.black,
+      color: Colors.white,
     ),
   ),
 

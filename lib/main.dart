@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: light,
       darkTheme: dark,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       home: BlocProvider(
         create: (context) => AuthBloc()..add(AppLoaded()),
         child: const AuthWrapper(),
