@@ -210,7 +210,17 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      body: pages[currentNavBarIndex],
+      body: BlocProvider(
+        create: (context) => _articlesBloc!,
+        child: BlocListener<ArticlesBloc, ArticlesState>(
+          listener: (context, state) {
+            if (state is ArticlesFetchError) {
+              showMySnackBar(context, message: state.error);
+            }
+          },
+          child: pages[currentNavBarIndex],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentNavBarIndex,
         onTap: (index) {
@@ -218,27 +228,20 @@ class _MainPageState extends State<MainPage> {
             currentNavBarIndex = index;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            icon: Icon(
-              currentNavBarIndex == 0 ? EvaIcons.home : EvaIcons.homeOutline,
-            ),
+            icon: Icon(EvaIcons.homeOutline),
+            activeIcon: Icon(EvaIcons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              currentNavBarIndex == 1
-                  ? EvaIcons.search
-                  : EvaIcons.searchOutline,
-            ),
+            icon: Icon(EvaIcons.searchOutline),
+            activeIcon: Icon(EvaIcons.search),
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              currentNavBarIndex == 2
-                  ? EvaIcons.bookmark
-                  : EvaIcons.bookmarkOutline,
-            ),
+            icon: Icon(EvaIcons.bookmarkOutline),
+            activeIcon: Icon(EvaIcons.bookmark),
             label: 'Saved',
           ),
         ],

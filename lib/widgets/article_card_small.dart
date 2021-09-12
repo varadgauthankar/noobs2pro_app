@@ -109,7 +109,9 @@ class _ArticleCardSmallState extends State<ArticleCardSmall> {
                                     : EvaIcons.bookmarkOutline,
                                 color: widget._article.isSaved == true
                                     ? kAccentColor
-                                    : kBlack,
+                                    : isThemeDark(context)
+                                        ? kWhite
+                                        : kBlack,
                               ),
                             ),
                             spacer(width: 6.0),

@@ -16,8 +16,11 @@ class ArticlePage extends StatelessWidget {
 
   final HtmlUnescape unEscapedString = HtmlUnescape();
 
+  Size _screenDimention = Size.zero;
+
   @override
   Widget build(BuildContext context) {
+    _screenDimention = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(_article.category!),
@@ -88,10 +91,17 @@ class ArticlePage extends StatelessWidget {
         return CachedNetworkImage(
           // fit: BoxFit.cover,
           imageUrl: attributes['src'] ?? '',
-          placeholder: (context, url) => buildPlaceholderImage(),
-          imageBuilder: (context, image) =>
-              buildArticleNetworkImage(context, image),
-          errorWidget: (context, url, error) => buildPlaceholderImage(),
+          placeholder: (context, url) => buildPlaceholderImage(
+            height: _screenDimention.height * .25,
+          ),
+          imageBuilder: (context, image) => buildArticleNetworkImage(
+            context,
+            image,
+            height: _screenDimention.height * .25,
+          ),
+          errorWidget: (context, url, error) => buildPlaceholderImage(
+            height: _screenDimention.height * .25,
+          ),
         );
       };
 

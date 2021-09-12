@@ -9,18 +9,21 @@ class HiveService {
   Box<Article> savedArticlesBox = Hive.box<Article>(kSavedArticlesObjectBox);
   Box<int> savedArticleIdBox = Hive.box<int>(kSavedArticleBox);
 
-  void insertArticle(Article article) {
-    allArticlBox.add(article);
+  Future<void> insertArticle(Article article) async {
+    await allArticlBox.add(article);
   }
 
-  void insertSearchedArticle(Article article) {
-    searcgArticlBox.add(article);
+  Future<void> insertSearchedArticle(Article article) async {
+    await searcgArticlBox.add(article);
   }
 
-  void insertCategoryArticles(Article articl) {
-    categoryArticlesBox.add(articl);
+  Future<void> insertCategoryArticles(Article articl) async {
+    await categoryArticlesBox.add(articl);
   }
 
+  // i dont know why i am runnign a loop here
+  // but i am afraid to change
+  // TODO come back later here
   List<Article> getArticles() {
     final List<Article> articlesList = [];
 
@@ -48,17 +51,17 @@ class HiveService {
     return articlesList;
   }
 
-  void saveArticle(Article article, dynamic key) {
+  Future<void> saveArticle(Article article, dynamic key) async {
     if (allArticlBox.containsKey(key)) {
-      allArticlBox.put(key, article..isSaved = true);
+      await allArticlBox.put(key, article..isSaved = true);
     } else {
-      allArticlBox.add(article..isSaved = true);
+      await allArticlBox.add(article..isSaved = true);
     }
     savedArticleIdBox.add(article.id!);
   }
 
-  void unSaveArticle(Article article, dynamic key) {
-    allArticlBox.put(key, article..isSaved = false);
+  Future<void> unSaveArticle(Article article, dynamic key) async {
+    await allArticlBox.put(key, article..isSaved = false);
     savedArticleIdBox
         .deleteAt(savedArticleIdBox.values.toList().indexOf(article.id!));
   }
