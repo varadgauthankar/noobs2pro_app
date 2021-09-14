@@ -118,7 +118,7 @@ class _SigninPageState extends State<SigninPage> {
                                     validator: (value) {
                                       if (value!.isNotEmpty) {
                                         if (value.length < 6) {
-                                          return 'Password should be atleast 6 characters long';
+                                          return 'Password should be at least 6 characters long';
                                         } else {
                                           return null;
                                         }

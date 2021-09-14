@@ -160,7 +160,7 @@ class _SignupPageState extends State<SignupPage> {
                                         width: screenSize.width,
                                         child: state is SignUpLoadingState
                                             ? const MyCircularProgress()
-                                            : const Text('Sign Up'),
+                                            : const Text('SIGN UP'),
                                       );
                                     },
                                   ),

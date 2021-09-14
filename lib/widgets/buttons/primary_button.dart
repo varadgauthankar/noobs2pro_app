@@ -5,6 +5,7 @@ class PrimaryButton extends StatelessWidget {
   final Widget child;
   final Function() onPressed;
   final double? width;
+  final double? height;
   final String heroTag;
   const PrimaryButton({
     Key? key,
@@ -12,6 +13,7 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     this.width,
     required this.heroTag,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -20,6 +22,7 @@ class PrimaryButton extends StatelessWidget {
       tag: heroTag,
       child: SizedBox(
         width: width,
+        height: height ?? 52,
         child: TextButton(
           onPressed: onPressed,
           style: TextButton.styleFrom(
@@ -30,9 +33,9 @@ class PrimaryButton extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontSize: 16.0,
             ),
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
+              borderRadius: BorderRadius.circular(8.0),
             ),
           ),
           child: child,

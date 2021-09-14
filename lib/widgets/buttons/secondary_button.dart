@@ -5,17 +5,20 @@ class SecondaryButton extends StatelessWidget {
   final String text;
   final Function() onPressed;
   final double? width;
+  final double? height;
   const SecondaryButton({
     Key? key,
     required this.text,
     required this.onPressed,
     this.width,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? 200,
+      height: height ?? 52,
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
@@ -26,9 +29,9 @@ class SecondaryButton extends StatelessWidget {
             fontWeight: FontWeight.w600,
             fontSize: 16.0,
           ),
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
         ),
         child: Text(text),
