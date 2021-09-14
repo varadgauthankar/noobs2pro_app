@@ -24,7 +24,7 @@ class ArticleSavingBloc extends Bloc<ArticleSavingEvent, ArticleSavingState> {
     if (event is ArticleSaveEvent) {
       yield ArticleSavingLoading();
       try {
-        await _hiveService.saveArticle(event.article, event.article.key);
+        await _hiveService.saveArticle(event.article);
         _fireStoreService.saveArticleId(event.article.id!);
         yield ArticleSaved();
       } catch (e) {

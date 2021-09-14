@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html_unescape/html_unescape_small.dart';
@@ -16,14 +17,22 @@ class ArticlePage extends StatelessWidget {
 
   final HtmlUnescape unEscapedString = HtmlUnescape();
 
-  Size _screenDimention = Size.zero;
+  Size _screenDimension = Size.zero;
 
   @override
   Widget build(BuildContext context) {
-    _screenDimention = MediaQuery.of(context).size;
+    _screenDimension = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(_article.category!),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              EvaIcons.bookmarkOutline,
+            ),
+          )
+        ],
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -37,9 +46,16 @@ class ArticlePage extends StatelessWidget {
                 child: CachedNetworkImage(
                   fit: BoxFit.fill,
                   imageUrl: _article.featuredMedia!.medium!,
-                  placeholder: (context, url) => buildPlaceholderImage(),
-                  imageBuilder: (context, image) => buildNetworkImage(image),
-                  errorWidget: (context, url, error) => buildPlaceholderImage(),
+                  placeholder: (context, url) => buildPlaceholderImage(
+                    height: _screenDimension.height * .25,
+                  ),
+                  imageBuilder: (context, image) => buildNetworkImage(
+                    image,
+                    height: _screenDimension.height * .25,
+                  ),
+                  errorWidget: (context, url, error) => buildPlaceholderImage(
+                    height: _screenDimension.height * .25,
+                  ),
                 ),
               ),
               spacer(height: 6.0),
@@ -64,7 +80,7 @@ class ArticlePage extends StatelessWidget {
               launch(url!);
             },
             onImageTap: (url, context, attributes, element) {
-              //might do someting with image over here
+              //might do something with image over here
             },
             customImageRenders: {
               networkSourceMatcher(): myNetworkImageRender(),
@@ -80,7 +96,6 @@ class ArticlePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        mini: true,
         onPressed: () => shareArticle(_article),
         child: const Icon(Icons.share),
       ),
@@ -92,15 +107,15 @@ class ArticlePage extends StatelessWidget {
           // fit: BoxFit.cover,
           imageUrl: attributes['src'] ?? '',
           placeholder: (context, url) => buildPlaceholderImage(
-            height: _screenDimention.height * .25,
+            height: _screenDimension.height * .25,
           ),
           imageBuilder: (context, image) => buildArticleNetworkImage(
             context,
             image,
-            height: _screenDimention.height * .25,
+            height: _screenDimension.height * .25,
           ),
           errorWidget: (context, url, error) => buildPlaceholderImage(
-            height: _screenDimention.height * .25,
+            height: _screenDimension.height * .25,
           ),
         );
       };

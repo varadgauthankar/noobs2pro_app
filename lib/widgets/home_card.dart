@@ -14,10 +14,10 @@ import 'package:noobs2pro_app/widgets/images.dart';
 
 class HomeCard extends StatefulWidget {
   final Article _article;
-  final Size _screenDimention;
+  final Size _screenDimension;
   const HomeCard(
     this._article,
-    this._screenDimention, {
+    this._screenDimension, {
     Key? key,
   }) : super(key: key);
 
@@ -60,14 +60,14 @@ class _HomeCardState extends State<HomeCard> {
                     fit: BoxFit.fill,
                     imageUrl: widget._article.featuredMedia?.medium ?? '',
                     placeholder: (context, _) => buildPlaceholderImage(
-                      height: widget._screenDimention.height * .25,
+                      height: widget._screenDimension.height * .25,
                     ),
                     imageBuilder: (context, image) => buildNetworkImage(
                       image,
-                      height: widget._screenDimention.height * .25,
+                      height: widget._screenDimension.height * .25,
                     ),
                     errorWidget: (context, _, err) => buildPlaceholderImage(
-                      height: widget._screenDimention.height * .25,
+                      height: widget._screenDimension.height * .25,
                     ),
                   ),
                 ),

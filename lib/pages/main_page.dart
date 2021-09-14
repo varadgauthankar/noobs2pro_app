@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
       id: 332,
     ),
     Category(
-      name: 'Esport',
+      name: 'E-sport',
       id: 4930,
     ),
     Category(
@@ -49,7 +49,7 @@ class _MainPageState extends State<MainPage> {
       id: 13,
     ),
     Category(
-      name: 'Gameplay Guides',
+      name: 'Game play Guides',
       id: 83,
     ),
     Category(
@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
       id: 336,
     ),
     Category(
-      name: 'Mobile Esports',
+      name: 'Mobile E-sports',
       id: 5939,
     ),
     Category(
@@ -167,6 +167,8 @@ class _MainPageState extends State<MainPage> {
                   ),
                   selected: true,
                   onTap: () {
+                    // TODO: improve this
+                    // TODO: clear hive box after logout
                     Navigator.pop(context);
 
                     showDialog(

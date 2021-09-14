@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   Widget buildListOfArticles(Size _screenDimention) {
     final HiveService _hiveService = HiveService();
     return ValueListenableBuilder(
-      valueListenable: _hiveService.allArticlBox.listenable(),
+      valueListenable: _hiveService.allArticleBox.listenable(),
       builder: (context, Box<Article> box, _) {
         if (box.isEmpty) {
           return const CenteredCircularProgressBar();

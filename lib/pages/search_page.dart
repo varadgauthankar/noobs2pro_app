@@ -1,8 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
 import 'package:noobs2pro_app/models/article.dart';
@@ -33,9 +31,7 @@ class _SearchPageState extends State<SearchPage> {
       ArticlesRepositoryImpl(),
       firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '',
     );
-    _articlesBloc?.add(FetchArticlesEvent());
-
-    shuffledArticleList = HiveService().allArticlBox.values.toList()..shuffle();
+    _articlesBloc?.add(FetchExploreArticlesEvent());
   }
 
   @override
@@ -103,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
           padding: const EdgeInsets.all(6),
           itemCount: state.articles.length,
           itemBuilder: (context, index) {
-            final List<Article> articles = state.articles..shuffle();
+            final List<Article> articles = state.articles;
 
             final Article _article = articles.elementAt(index);
             return HomeCard(

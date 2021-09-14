@@ -6,4 +6,5 @@ abstract class ArticlesRepository {
   Future<List<Article>> fetchArticlesByCategory(FirestoreService f, int id);
   Future<List<Article>> fetchArticlesByQuery(FirestoreService f,
       {required String query});
+  Future<List<Article>> fetchExploreArticles(FirestoreService f);
 }

@@ -11,14 +11,14 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
   @override
   Future<List<Article>> fetchArticles(FirestoreService fireStore) async {
     // clear previous articles from box
-    await _hiveService.allArticlBox.clear();
+    await _hiveService.allArticleBox.clear();
     final List<dynamic> ids =
         await fireStore.getSavedArticleIds() as List<dynamic>;
 
     final List<Article> articles = await ApiService.getAllPosts();
 
+    // put new articles in box with "isSaved"
     for (final Article article in articles) {
-      // final List<dynamic> i = ids as List<dynamic>;
       if (ids.contains(article.id)) {
         await _hiveService.insertArticle(article..isSaved = true);
       } else {
@@ -37,10 +37,9 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
     final List<Article> articles =
         await ApiService.getPostsBySearchQuery(query);
 
-    await _hiveService.searcgArticlBox.clear();
+    await _hiveService.searchArticleBox.clear();
 
     for (final Article article in articles) {
-      // final List<dynamic> i = ids as List<dynamic>;
       if (ids.contains(article.id)) {
         _hiveService.insertSearchedArticle(article..isSaved = true);
       } else {
@@ -61,17 +60,34 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
     await _hiveService.categoryArticlesBox.clear();
 
     for (final Article article in articles) {
-      // final List<dynamic> i = ids as List<dynamic>;
       if (ids.contains(article.id)) {
         newArticles.add(article..isSaved = true);
       } else {
         newArticles.add(article);
-
-        // _hiveService.insertCategoryArticles(article);
       }
     }
-    // return _hiveService.getCategoryArticles();
-
     return newArticles;
+  }
+
+  @override
+  Future<List<Article>> fetchExploreArticles(FirestoreService fireStore) async {
+    final List<dynamic> ids =
+        await fireStore.getSavedArticleIds() as List<dynamic>;
+
+    final List<Article> articles = await ApiService.getAllPosts();
+
+    final List<Article> processedArticles = [];
+
+    for (final Article article in articles) {
+      if (ids.contains(article.id)) {
+        processedArticles.add(article..isSaved = true);
+      } else {
+        processedArticles.add(article);
+      }
+    }
+
+    // right now just shuffling the all articles list 🤣
+    // which basically acts as a "Explore" feature lol
+    return processedArticles..shuffle();
   }
 }

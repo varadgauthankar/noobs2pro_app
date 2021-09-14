@@ -77,5 +77,23 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
         yield ArticlesFetchError(e.toString());
       }
     }
+
+    // explore articles
+    else if (event is FetchExploreArticlesEvent) {
+      yield ArticlesFetchLoading();
+      try {
+        final List<Article> articles =
+            await _articlesRepository.fetchExploreArticles(_firestoreService);
+        yield ArticlesFetchComplete(articles);
+      } on SocketException {
+        yield ArticlesFetchError('No internet');
+      } on HttpException {
+        yield ArticlesFetchError('No Service found');
+      } on FormatException {
+        yield ArticlesFetchError('invalid response format');
+      } catch (e) {
+        yield ArticlesFetchError(e.toString());
+      }
+    }
   }
 }

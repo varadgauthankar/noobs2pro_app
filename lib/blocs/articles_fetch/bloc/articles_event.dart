@@ -18,3 +18,6 @@ class FetchCategoryArticlesEvent extends ArticlesEvent {
   final int id;
   FetchCategoryArticlesEvent(this.id);
 }
+
+// explore articles
+class FetchExploreArticlesEvent extends ArticlesEvent {}
