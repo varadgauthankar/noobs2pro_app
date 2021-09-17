@@ -25,12 +25,12 @@ Style allTags = Style(
 const TextStyle welcomeStyle = TextStyle(
   fontSize: 34,
   fontFamily: 'Poppins',
-  fontWeight: FontWeight.w800,
+  fontWeight: FontWeight.w600,
   height: 2,
 );
 
 const TextStyle appNameStyle = TextStyle(
-  fontSize: 34,
+  fontSize: 36,
   color: kAccentColor,
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w800,

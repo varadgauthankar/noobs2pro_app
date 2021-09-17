@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const ktransparent = Colors.transparent;
+const transparent = Colors.transparent;
 const kPrimaryColor = Color(0xFF06141F);
 const kPrimaryColorDark = Color(0xFF040C13);
 const kAccentColor = Color(0xFFFF5338);

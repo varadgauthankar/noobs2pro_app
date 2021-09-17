@@ -23,7 +23,7 @@ class BaseTextField extends StatelessWidget {
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         labelText: label,
         hintText: hintText,
       ),

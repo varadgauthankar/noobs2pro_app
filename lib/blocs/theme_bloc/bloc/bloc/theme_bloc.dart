@@ -9,7 +9,7 @@ part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc()
-      : super(const ThemeState(ThemeMode.dark)); // default is dark theme
+      : super(const ThemeState(ThemeMode.light)); // default is light  theme
 
   @override
   Stream<ThemeState> mapEventToState(

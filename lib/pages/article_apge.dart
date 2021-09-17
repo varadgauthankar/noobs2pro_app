@@ -62,7 +62,7 @@ class ArticlePage extends StatelessWidget {
               Hero(
                 tag: 'title${_article.id}',
                 child: Material(
-                  color: ktransparent,
+                  color: transparent,
                   child: Text(
                     unEscapedString.convert(_article.title!),
                     style: articleTitle,

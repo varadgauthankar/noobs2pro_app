@@ -22,7 +22,7 @@ class SecondaryButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: kAccentColorLight,
+          backgroundColor: kWhite,
           primary: Colors.black,
           textStyle: const TextStyle(
             fontFamily: 'Poppins',
@@ -30,8 +30,9 @@ class SecondaryButton extends StatelessWidget {
             fontSize: 16.0,
           ),
           padding: const EdgeInsets.symmetric(vertical: 12.0),
+          side: const BorderSide(color: kAccentColor),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(50.0),
           ),
         ),
         child: Text(text),

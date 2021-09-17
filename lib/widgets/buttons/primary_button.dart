@@ -23,22 +23,34 @@ class PrimaryButton extends StatelessWidget {
       child: SizedBox(
         width: width,
         height: height ?? 52,
-        child: TextButton(
-          onPressed: onPressed,
-          style: TextButton.styleFrom(
-            backgroundColor: kAccentColor,
-            primary: Colors.white,
-            textStyle: const TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              fontSize: 16.0,
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: [
+              BoxShadow(
+                  color: kAccentColor.withOpacity(0.25),
+                  blurRadius: 10.0,
+                  offset: const Offset(4, 4),
+                  spreadRadius: 2),
+            ],
           ),
-          child: child,
+          child: TextButton(
+            onPressed: onPressed,
+            style: TextButton.styleFrom(
+              backgroundColor: kAccentColor,
+              primary: Colors.white,
+              textStyle: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600,
+                fontSize: 16.0,
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50.0),
+              ),
+            ),
+            child: child,
+          ),
         ),
       ),
     );

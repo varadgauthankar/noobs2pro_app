@@ -75,7 +75,7 @@ class _HomeCardState extends State<HomeCard> {
                 Hero(
                   tag: 'title${widget._article.id}',
                   child: Material(
-                    color: ktransparent,
+                    color: transparent,
                     child: Text(
                       unEscapedString.convert(widget._article.title!),
                       style: articleTitle,
