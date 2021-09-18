@@ -100,7 +100,11 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(getAppBarName()),
+        title: Text(
+          getAppBarName(),
+          style: appBarTitleStyle.copyWith(
+              color: isThemeDark(context) ? kWhite : kBlack),
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(

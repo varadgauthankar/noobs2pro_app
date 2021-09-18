@@ -29,6 +29,13 @@ const TextStyle welcomeStyle = TextStyle(
   height: 2,
 );
 
+const TextStyle appBarTitleStyle = TextStyle(
+  // fontSize: 36,
+
+  fontFamily: 'Poppins',
+  fontWeight: FontWeight.w600,
+);
+
 const TextStyle appNameStyle = TextStyle(
   fontSize: 36,
   color: kAccentColor,

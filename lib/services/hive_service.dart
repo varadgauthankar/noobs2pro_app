@@ -21,16 +21,14 @@ class HiveService {
     await categoryArticlesBox.add(article);
   }
 
-  // i dont know why i am runnign a loop here
-  // but i am afraid to change
   // TODO come back later here
   List<Article> getArticles() {
-    final List<Article> articlesList = [];
+    // final List<Article> articlesList = [];
 
-    for (final article in allArticleBox.values.toList()) {
-      articlesList.add(article);
-    }
-    return articlesList;
+    // for (final article in allArticleBox.values.toList()) {
+    //   articlesList.add(article);
+    // }
+    return allArticleBox.values.toList();
   }
 
   List<Article> getSearchedArticles() {

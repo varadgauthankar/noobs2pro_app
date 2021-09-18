@@ -21,6 +21,7 @@ void main() async {
   await Hive.openBox<Article>(kSearchArticlesBox);
   await Hive.openBox<Article>(kCategoryArticlesBox);
   await Hive.openBox<Article>(kSavedArticlesObjectBox);
+  await Hive.openBox<int>(kThemeBox);
   runApp(MyApp());
 }
 
