@@ -10,6 +10,7 @@ import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 import 'package:noobs2pro_app/widgets/home_card.dart';
+import 'package:noobs2pro_app/widgets/shimmers/home_article_card.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -107,7 +108,16 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget buildListOfArticles(Size _screenDimention, ArticlesState state) {
     if (state is ArticlesFetchLoading) {
-      return const CenteredCircularProgressBar();
+      return Expanded(
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(6),
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return const ShimmerHomeArticleCard();
+          },
+        ),
+      );
     } else if (state is ArticlesFetchComplete) {
       return Expanded(
         child: ListView.builder(

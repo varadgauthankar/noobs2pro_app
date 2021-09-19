@@ -4,6 +4,7 @@ import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 import 'package:noobs2pro_app/widgets/home_card.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:noobs2pro_app/widgets/shimmers/home_article_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,7 +34,14 @@ class _HomePageState extends State<HomePage> {
       valueListenable: _hiveService.allArticleBox.listenable(),
       builder: (context, Box<Article> box, _) {
         if (box.isEmpty) {
-          return const CenteredCircularProgressBar();
+          return ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(6),
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return const ShimmerHomeArticleCard();
+            },
+          );
         } else {
           return ListView.builder(
             physics: const BouncingScrollPhysics(),
