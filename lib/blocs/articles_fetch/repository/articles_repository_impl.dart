@@ -57,7 +57,6 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
 
     final List<Article> articles = await ApiService.getPostsByCategory(id);
     final List<Article> newArticles = [];
-    await _hiveService.categoryArticlesBox.clear();
 
     for (final Article article in articles) {
       if (ids.contains(article.id)) {

@@ -10,7 +10,7 @@ import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/article_card_small.dart';
-import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
+import 'package:noobs2pro_app/widgets/exception_graphic_widget.dart';
 import 'package:noobs2pro_app/widgets/shimmers/small_article_card.dart';
 
 class CategoryArticlesPage extends StatefulWidget {
@@ -58,9 +58,9 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
         create: (context) => _articlesBloc!,
         child: BlocConsumer<ArticlesBloc, ArticlesState>(
           listener: (context, state) {
-            if (state is ArticlesFetchError) {
-              showMySnackBar(context, message: state.error);
-            }
+            // if (state is ArticlesFetchError) {
+            //   showMySnackBar(context, message: state.error);
+            // }
           },
           builder: (context, state) {
             return buildListOfArticles(screenDimension, state);
@@ -97,10 +97,15 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
             },
           );
         } else if (state is ArticlesFetchError) {
-          //Todo: add graphics
-          return Text(state.error);
+          return const ExceptionGraphic(
+            message: 'Failed to load articles',
+            assetName: 'void.svg',
+          );
         } else {
-          return Text('');
+          return const ExceptionGraphic(
+            message: 'Something went wrong',
+            assetName: 'void.svg',
+          );
         }
       },
     );

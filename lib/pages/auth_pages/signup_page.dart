@@ -58,109 +58,117 @@ class _SignupPageState extends State<SignupPage> {
           },
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Stack(
-                      alignment: const AlignmentDirectional(-1, 0.0),
-                      children: [
-                        const Align(
-                          widthFactor: 0.2,
-                          child: AnimatedBlob(),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Hello,',
-                                style: sloganStyle.copyWith(fontSize: 24)),
-                            Text(
-                              'Sign up!',
-                              style: appNameStyle.copyWith(
-                                  color: kBlack, fontSize: 40),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
+            child: SizedBox(
+              height: screenSize.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      BaseTextField(
-                        label: 'Email',
-                        hintText: 'Enter your email',
-                        controller: emailController,
-                        validator: (value) {
-                          if (validator.isEmail(value!)) {
-                            return null;
-                          } else {
-                            return 'Please enter a valid email';
-                          }
-                        },
-                      ),
-                      spacer(height: 12),
-                      BaseTextField(
-                        obscureText: obscureText,
-                        label: 'Password',
-                        hintText: 'Enter your password',
-                        controller: passwordController,
-                        validator: (value) {
-                          if (value!.isNotEmpty) {
-                            if (value.length < 6) {
-                              return 'Password should be at least 6 characters long';
-                            } else {
-                              return null;
-                            }
-                          } else {
-                            return 'Please enter the password';
-                          }
-                        },
-                      ),
-                      spacer(height: 24),
-                      BlocBuilder<SignUpBloc, SignUpState>(
-                        builder: (context, state) {
-                          return PrimaryButton(
-                            heroTag: 'primary',
-                            onPressed: () {
-                              if (isFormValidate()) {
-                                _signUpBloc.add(SignUpButtonPressed(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                ));
-                              }
-                            },
-                            width: screenSize.width,
-                            child: state is SignUpLoadingState
-                                ? const MyCircularProgress()
-                                : const Text('SIGN UP'),
-                          );
-                        },
-                      ),
-                      spacer(height: 12.0),
-                      TextButton(
-                        onPressed: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SigninPage()),
-                        ),
-                        style: TextButton.styleFrom(
-                          primary: Colors.grey,
-                          textStyle: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
+                      Stack(
+                        alignment: const AlignmentDirectional(-1, 0.0),
+                        children: [
+                          const Align(
+                            widthFactor: 0.2,
+                            child: AnimatedBlob(),
                           ),
-                        ),
-                        child: const Text("Already have an account? SIGN IN"),
-                      )
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Hello,',
+                                  style: sloganStyle.copyWith(fontSize: 24)),
+                              Text(
+                                'Sign up!',
+                                style: appNameStyle.copyWith(
+                                    color: kBlack, fontSize: 40),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                ),
-              ],
+                  // const Spacer(),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        BaseTextField(
+                          label: 'Email',
+                          hintText: 'Enter your email',
+                          controller: emailController,
+                          validator: (value) {
+                            if (validator.isEmail(value!)) {
+                              return null;
+                            } else {
+                              return 'Please enter a valid email';
+                            }
+                          },
+                        ),
+                        spacer(height: 12),
+                        BaseTextField(
+                          obscureText: obscureText,
+                          label: 'Password',
+                          hintText: 'Enter your password',
+                          controller: passwordController,
+                          validator: (value) {
+                            if (value!.isNotEmpty) {
+                              if (value.length < 6) {
+                                return 'Password should be at least 6 characters long';
+                              } else {
+                                return null;
+                              }
+                            } else {
+                              return 'Please enter the password';
+                            }
+                          },
+                        ),
+                        spacer(height: 24),
+                        BlocBuilder<SignUpBloc, SignUpState>(
+                          builder: (context, state) {
+                            return PrimaryButton(
+                              heroTag: 'primary',
+                              onPressed: () {
+                                if (isFormValidate()) {
+                                  _signUpBloc.add(SignUpButtonPressed(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ));
+                                }
+                              },
+                              width: screenSize.width,
+                              child: state is SignUpLoadingState
+                                  ? const MyCircularProgress()
+                                  : const Text('SIGN UP'),
+                            );
+                          },
+                        ),
+                        spacer(height: 12.0),
+                        TextButton(
+                          onPressed: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SigninPage()),
+                          ),
+                          style: TextButton.styleFrom(
+                            primary: Colors.grey,
+                            textStyle: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          child: const Text("Already have an account? SIGN IN"),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

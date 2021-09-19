@@ -20,8 +20,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           event.password!,
         );
         yield SignInCompleteState(user!);
-      } catch (e) {
-        yield SignInFailedState(e.toString());
+      } on FirebaseException catch (e) {
+        yield SignInFailedState(e.code.replaceAll('-', ' '));
       }
     }
   }

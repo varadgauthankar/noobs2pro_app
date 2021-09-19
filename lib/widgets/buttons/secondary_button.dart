@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
+import 'package:noobs2pro_app/utils/helpers.dart';
 
 class SecondaryButton extends StatelessWidget {
   final String text;
@@ -22,8 +23,8 @@ class SecondaryButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: kWhite,
-          primary: Colors.black,
+          backgroundColor: Colors.transparent,
+          primary: isThemeDark(context) ? kWhite : Colors.black,
           textStyle: const TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600,

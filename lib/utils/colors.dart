@@ -8,3 +8,4 @@ const kAccentColorLight = Color(0xFFFFA799);
 const kWhite = Color(0xFFFFFFFF);
 const kBlack = Color(0xFF212121);
 const kGrey = Color(0xFF121212);
+const kDanger = Colors.red;

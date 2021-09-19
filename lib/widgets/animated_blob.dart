@@ -7,9 +7,10 @@ class AnimatedBlob extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Blob.animatedRandom(
       // id: const ['10-7-46635', '10-7-35931', '10-7-322'],
-      size: 500,
+      size: screenSize.height * .6,
       loop: true,
       duration: const Duration(seconds: 6),
       styles: BlobStyles(
