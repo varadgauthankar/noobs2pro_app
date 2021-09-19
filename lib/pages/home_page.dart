@@ -20,14 +20,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenDimention = MediaQuery.of(context).size;
+    final Size screenDimension = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: buildListOfArticles(screenDimention),
+      body: buildListOfArticles(screenDimension),
     );
   }
 
-  Widget buildListOfArticles(Size _screenDimention) {
+  Widget buildListOfArticles(Size _screenDimension) {
     final HiveService _hiveService = HiveService();
     return ValueListenableBuilder(
       valueListenable: _hiveService.allArticleBox.listenable(),
@@ -36,13 +36,14 @@ class _HomePageState extends State<HomePage> {
           return const CenteredCircularProgressBar();
         } else {
           return ListView.builder(
+            physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.all(6),
             itemCount: box.values.length,
             itemBuilder: (context, index) {
               final Article _article = box.values.toList().elementAt(index);
               return HomeCard(
                 _article,
-                _screenDimention,
+                _screenDimension,
               );
             },
           );

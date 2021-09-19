@@ -4,9 +4,12 @@ import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repository_impl.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
+import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
+import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/article_card_small.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
+import 'package:noobs2pro_app/widgets/exception_graphic_widget.dart';
 
 class SearchedArticlePaged extends StatefulWidget {
   final String query;
@@ -35,7 +38,12 @@ class _SearchedArticlePagedState extends State<SearchedArticlePaged> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.query),
+        title: Text(
+          widget.query,
+          style: appBarTitleStyle.copyWith(
+            color: isThemeDark(context) ? kWhite : kBlack,
+          ),
+        ),
       ),
       body: BlocProvider(
         create: (context) => _articlesBloc!,
@@ -54,15 +62,23 @@ class _SearchedArticlePagedState extends State<SearchedArticlePaged> {
             if (state is ArticlesFetchLoading) {
               return const CenteredCircularProgressBar();
             }
-            return ListView.builder(
-              padding: const EdgeInsets.all(6),
-              itemCount: _articles.length,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                final _article = _articles[index];
-                return ArticleCardSmall(_article);
-              },
-            );
+
+            if (_articles.isNotEmpty) {
+              return ListView.builder(
+                padding: const EdgeInsets.all(6),
+                itemCount: _articles.length,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  final _article = _articles[index];
+                  return ArticleCardSmall(_article);
+                },
+              );
+            } else {
+              return const ExceptionGraphic(
+                message: 'No results',
+                assetName: 'void.svg',
+              );
+            }
           },
         ),
       ),

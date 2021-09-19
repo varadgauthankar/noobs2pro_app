@@ -24,7 +24,12 @@ class ArticlePage extends StatelessWidget {
     _screenDimension = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(_article.category!),
+        title: Text(
+          _article.category!,
+          style: appBarTitleStyle.copyWith(
+            color: isThemeDark(context) ? kWhite : kBlack,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {},

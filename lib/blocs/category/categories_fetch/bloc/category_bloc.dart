@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/category/categories_fetch/repository/category_repository.dart';
-import 'package:noobs2pro_app/models/category.dart';
+import 'package:noobs2pro_app/widgets/drawer/drawer_model.dart';
 
 part 'category_state.dart';
 part 'category_event.dart';

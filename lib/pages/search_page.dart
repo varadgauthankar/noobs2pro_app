@@ -6,7 +6,6 @@ import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repositor
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/pages/pages.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
-import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
@@ -21,7 +20,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   ArticlesBloc? _articlesBloc;
-  List<Article> shuffledArticleList = [];
+  final _textController = TextEditingController();
 
   @override
   void initState() {
@@ -36,7 +35,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenDimention = MediaQuery.of(context).size;
+    final Size screenDimension = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,21 +44,37 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(10.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
+              controller: _textController,
               textInputAction: TextInputAction.search,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 hintText: 'Search',
-                suffixIcon: Icon(EvaIcons.searchOutline),
+                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                // suffixIcon: Icon(EvaIcons.searchOutline),
+                suffix: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    // radius: 16,
+
+                    onTap: () {
+                      goToPage(
+                        context,
+                        SearchedArticlePaged(
+                          query: _textController.text,
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      EvaIcons.searchOutline,
+                      size: 22,
+                    )),
               ),
-              onFieldSubmitted: (text) {
-                Navigator.push(
+              onFieldSubmitted: (_) {
+                goToPage(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => SearchedArticlePaged(
-                      query: text,
-                    ),
+                  SearchedArticlePaged(
+                    query: _textController.text,
                   ),
                 );
               },
@@ -81,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
                 }
               },
               builder: (context, state) {
-                return buildListOfArticles(screenDimention, state);
+                return buildListOfArticles(screenDimension, state);
               },
             ),
           ),

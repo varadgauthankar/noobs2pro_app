@@ -5,8 +5,10 @@ import 'package:noobs2pro_app/blocs/articles_fetch/repository/articles_repositor
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
+import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/article_card_small.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 
@@ -44,7 +46,12 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.categoryTitle),
+        title: Text(
+          widget.categoryTitle,
+          style: appBarTitleStyle.copyWith(
+            color: isThemeDark(context) ? kWhite : kBlack,
+          ),
+        ),
       ),
       body: BlocProvider(
         create: (context) => _articlesBloc!,
@@ -86,7 +93,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
           //Todo: add graphics
           return Text(state.error);
         } else {
-          return Text('awww');
+          return Text('');
         }
       },
     );

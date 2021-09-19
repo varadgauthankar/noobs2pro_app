@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/widgets/article_card_small.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:noobs2pro_app/widgets/exception_graphic_widget.dart';
 
 class SavedArticlePage extends StatefulWidget {
   const SavedArticlePage({Key? key}) : super(key: key);
@@ -22,12 +23,6 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
         .where((element) => element.isSaved == true)
         .cast<Article>()
         .toList();
-
-    print(savedArticle.length);
-    for (final article in savedArticle) {
-      print(article.title);
-    }
-
     return savedArticle;
   }
 
@@ -56,6 +51,7 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
 
   Widget _buildArticles(Box<Article> box) {
     return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(6),
       itemCount: _getSavedArticlesFromAllArticleBox(box).length,
       itemBuilder: (context, index) {
@@ -71,8 +67,9 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
   }
 
   Widget _noArticlesGraphic() {
-    return const Center(
-      child: Text('NO ARTICLES'),
+    return const ExceptionGraphic(
+      message: 'No Saved Articles yet!',
+      assetName: 'no_article.svg',
     );
   }
 }
