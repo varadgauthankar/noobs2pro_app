@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html_unescape/html_unescape_small.dart';
+import 'package:noobs2pro_app/blocs/article_saving/bloc/article_saving_bloc.dart';
 import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
@@ -11,30 +14,59 @@ import 'package:noobs2pro_app/widgets/images.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ArticlePage extends StatelessWidget {
+class ArticlePage extends StatefulWidget {
   final Article _article;
   ArticlePage(this._article, {Key? key}) : super(key: key);
 
+  @override
+  State<ArticlePage> createState() => _ArticlePageState();
+}
+
+class _ArticlePageState extends State<ArticlePage> {
   final HtmlUnescape unEscapedString = HtmlUnescape();
 
   Size _screenDimension = Size.zero;
 
   @override
   Widget build(BuildContext context) {
+    final ArticleSavingBloc _bloc = ArticleSavingBloc(
+        firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '');
     _screenDimension = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _article.category!,
+          widget._article.category!,
           style: appBarTitleStyle.copyWith(
             color: isThemeDark(context) ? kWhite : kBlack,
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              EvaIcons.bookmarkOutline,
+          BlocProvider(
+            create: (context) => _bloc,
+            child: BlocConsumer<ArticleSavingBloc, ArticleSavingState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                return IconButton(
+                  onPressed: () {
+                    widget._article.isSaved!
+                        ? _bloc.add(ArticleUnSaveEvent(widget._article))
+                        : _bloc.add(ArticleSaveEvent(widget._article));
+                    setState(() {});
+                  },
+                  icon: Icon(
+                    widget._article.isSaved == true
+                        ? EvaIcons.bookmark
+                        : EvaIcons.bookmarkOutline,
+                    color: widget._article.isSaved == true
+                        ? kAccentColor
+                        : isThemeDark(context)
+                            ? kWhite
+                            : kBlack,
+                  ),
+                );
+              },
             ),
           )
         ],
@@ -47,10 +79,10 @@ class ArticlePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Hero(
-                tag: 'image${_article.id}',
+                tag: 'image${widget._article.id}',
                 child: CachedNetworkImage(
                   fit: BoxFit.fill,
-                  imageUrl: _article.featuredMedia!.medium!,
+                  imageUrl: widget._article.featuredMedia!.medium!,
                   placeholder: (context, url) => buildPlaceholderImage(
                     height: _screenDimension.height * .25,
                   ),
@@ -65,22 +97,22 @@ class ArticlePage extends StatelessWidget {
               ),
               spacer(height: 6.0),
               Hero(
-                tag: 'title${_article.id}',
+                tag: 'title${widget._article.id}',
                 child: Material(
                   color: transparent,
                   child: Text(
-                    unEscapedString.convert(_article.title!),
+                    unEscapedString.convert(widget._article.title!),
                     style: articleTitle,
                     textAlign: TextAlign.left,
                   ),
                 ),
               ),
               spacer(height: 6.0),
-              Text(getFormattedDate(_article.date!))
+              Text(getFormattedDate(widget._article.date!))
             ],
           ),
           Html(
-            data: _article.content,
+            data: widget._article.content,
             onLinkTap: (url, context, attributes, element) {
               launch(url!);
             },
@@ -101,7 +133,7 @@ class ArticlePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => shareArticle(_article),
+        onPressed: () => shareArticle(widget._article),
         child: const Icon(Icons.share),
       ),
     );

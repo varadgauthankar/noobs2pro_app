@@ -22,6 +22,8 @@ class DrawerMenu extends StatelessWidget {
         child: Column(
           children: [
             Container(
+              width: double.maxFinite,
+              height: 80,
               padding:
                   const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
               color: kPrimaryColor,

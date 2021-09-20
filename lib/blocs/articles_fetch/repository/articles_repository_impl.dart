@@ -10,19 +10,23 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
 
   @override
   Future<List<Article>> fetchArticles(FirestoreService fireStore) async {
-    // clear previous articles from box
-    await _hiveService.allArticleBox.clear();
+    // await _hiveService.allArticleBox.clear();
     final List<dynamic> ids =
         await fireStore.getSavedArticleIds() as List<dynamic>;
 
     final List<Article> articles = await ApiService.getAllPosts();
 
-    // put new articles in box with "isSaved"
+    // check for new articles and add to box
     for (final Article article in articles) {
-      if (ids.contains(article.id)) {
-        await _hiveService.insertArticle(article..isSaved = true);
-      } else {
-        await _hiveService.insertArticle(article);
+      if (_hiveService.allArticleBox.values
+          .toList()
+          .every((element) => element.id != article.id)) {
+        // put new articles in box with "isSaved"
+        if (ids.contains(article.id)) {
+          await _hiveService.insertArticle(article..isSaved = true);
+        } else {
+          await _hiveService.insertArticle(article);
+        }
       }
     }
     return _hiveService.getArticles();
