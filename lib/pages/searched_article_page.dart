@@ -10,6 +10,7 @@ import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/article_card_small.dart';
 import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 import 'package:noobs2pro_app/widgets/exception_graphic_widget.dart';
+import 'package:noobs2pro_app/widgets/shimmers/small_article_card.dart';
 
 class SearchedArticlePaged extends StatefulWidget {
   final String query;
@@ -60,7 +61,14 @@ class _SearchedArticlePagedState extends State<SearchedArticlePaged> {
           },
           builder: (context, state) {
             if (state is ArticlesFetchLoading) {
-              return const CenteredCircularProgressBar();
+              return ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.all(6),
+                itemCount: 12,
+                itemBuilder: (context, index) {
+                  return const ShimmerSmallArticleCard();
+                },
+              );
             }
 
             if (_articles.isNotEmpty) {

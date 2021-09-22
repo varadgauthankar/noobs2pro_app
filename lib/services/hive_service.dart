@@ -10,6 +10,7 @@ class HiveService {
   Box<int> fsavedArticleIdBox = Hive.box<int>(kSavedArticleBox);
 
   Future<void> insertArticle(Article article) async {
+    // await allArticleBox
     await allArticleBox.add(article);
   }
 
@@ -21,14 +22,12 @@ class HiveService {
     await categoryArticlesBox.add(article);
   }
 
-  // TODO come back later here
   List<Article> getArticles() {
-    // final List<Article> articlesList = [];
-
-    // for (final article in allArticleBox.values.toList()) {
-    //   articlesList.add(article);
-    // }
     return allArticleBox.values.toList();
+  }
+
+  List<Article> getArticlesShuffled() {
+    return allArticleBox.values.toList()..shuffle();
   }
 
   List<Article> getSearchedArticles() {
@@ -59,8 +58,6 @@ class HiveService {
 
     final articleFromBox =
         allArticleBox.values.firstWhere((element) => element.id == article.id);
-
-    print(articleFromBox.key);
 
     await allArticleBox.put(articleFromBox.key, article..isSaved = true);
   }

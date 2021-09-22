@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
-import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 import 'package:noobs2pro_app/widgets/home_card.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:noobs2pro_app/widgets/shimmers/home_article_card.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _refreshController = RefreshController();
+  final HiveService _hiveService = HiveService();
+
+  void _onRefresh() {
+    _refreshController.refreshCompleted();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +36,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildListOfArticles(Size _screenDimension) {
-    final HiveService _hiveService = HiveService();
     return ValueListenableBuilder(
       valueListenable: _hiveService.allArticleBox.listenable(),
       builder: (context, Box<Article> box, _) {
@@ -43,17 +49,21 @@ class _HomePageState extends State<HomePage> {
             },
           );
         } else {
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(6),
-            itemCount: box.values.length,
-            itemBuilder: (context, index) {
-              final Article _article = box.values.toList().elementAt(index);
-              return HomeCard(
-                _article,
-                _screenDimension,
-              );
-            },
+          return SmartRefresher(
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(6),
+              itemCount: box.values.length,
+              itemBuilder: (context, index) {
+                final Article _article = box.values.toList().elementAt(index);
+                return HomeCard(
+                  _article,
+                  _screenDimension,
+                );
+              },
+            ),
           );
         }
       },

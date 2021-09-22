@@ -7,11 +7,12 @@ import 'package:noobs2pro_app/models/article.dart';
 // ignore: avoid_classes_with_only_static_members
 class ApiService {
   static Future<List<Article>> getAllPosts() async {
+    //TODO: implement pagination
     try {
       final url = Uri.https(
         baseUrl,
         allPostsEndpoint,
-        {'per_page': '100', '_embed': ''},
+        {'per_page': '3', 'offset': '0', '_embed': ''},
       );
 
       final response = await http.get(url);

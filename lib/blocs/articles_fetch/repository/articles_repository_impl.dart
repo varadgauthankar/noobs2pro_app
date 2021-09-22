@@ -10,7 +10,7 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
 
   @override
   Future<List<Article>> fetchArticles(FirestoreService fireStore) async {
-    // await _hiveService.allArticleBox.clear();
+    await _hiveService.allArticleBox.clear();
     final List<dynamic> ids =
         await fireStore.getSavedArticleIds() as List<dynamic>;
 
