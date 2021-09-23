@@ -60,13 +60,15 @@ class _HomeCardState extends State<HomeCard> {
                     fit: BoxFit.fill,
                     imageUrl: widget._article.featuredMedia?.medium ?? '',
                     placeholder: (context, _) => buildPlaceholderImage(
+                      context,
                       height: widget._screenDimension.height * .25,
                     ),
-                    imageBuilder: (context, image) => buildNetworkImage(
-                      image,
+                    imageBuilder: (context, image) => buildPlaceholderImage(
+                      context,
                       height: widget._screenDimension.height * .25,
                     ),
                     errorWidget: (context, _, err) => buildPlaceholderImage(
+                      context,
                       height: widget._screenDimension.height * .25,
                     ),
                   ),

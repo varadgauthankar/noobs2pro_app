@@ -84,6 +84,7 @@ class _ArticlePageState extends State<ArticlePage> {
                   fit: BoxFit.fill,
                   imageUrl: widget._article.featuredMedia!.medium!,
                   placeholder: (context, url) => buildPlaceholderImage(
+                    context,
                     height: _screenDimension.height * .25,
                   ),
                   imageBuilder: (context, image) => buildNetworkImage(
@@ -91,6 +92,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     height: _screenDimension.height * .25,
                   ),
                   errorWidget: (context, url, error) => buildPlaceholderImage(
+                    context,
                     height: _screenDimension.height * .25,
                   ),
                 ),
@@ -144,6 +146,7 @@ class _ArticlePageState extends State<ArticlePage> {
           // fit: BoxFit.cover,
           imageUrl: attributes['src'] ?? '',
           placeholder: (context, url) => buildPlaceholderImage(
+            context,
             height: _screenDimension.height * .25,
           ),
           imageBuilder: (context, image) => buildArticleNetworkImage(
@@ -152,6 +155,7 @@ class _ArticlePageState extends State<ArticlePage> {
             height: _screenDimension.height * .25,
           ),
           errorWidget: (context, url, error) => buildPlaceholderImage(
+            context,
             height: _screenDimension.height * .25,
           ),
         );

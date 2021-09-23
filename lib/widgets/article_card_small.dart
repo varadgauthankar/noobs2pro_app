@@ -50,16 +50,21 @@ class _ArticleCardSmallState extends State<ArticleCardSmall> {
                 fit: BoxFit.fill,
                 imageUrl: widget._article.featuredMedia!.thumbnail!,
                 placeholder: (context, _) => buildPlaceholderImage(
+                  context,
                   width: screenDimention.height * .12,
+                  height: screenDimention.height * .12,
                   borderRadius: 8.0,
                 ),
                 imageBuilder: (context, image) => buildNetworkImage(
                   image,
                   width: screenDimention.height * .12,
+                  height: screenDimention.height * .12,
                   borderRadius: 8.0,
                 ),
                 errorWidget: (context, _, err) => buildPlaceholderImage(
+                  context,
                   width: screenDimention.height * .12,
+                  height: screenDimention.height * .12,
                   borderRadius: 8.0,
                 ),
               ),
