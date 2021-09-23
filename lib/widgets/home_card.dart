@@ -63,8 +63,8 @@ class _HomeCardState extends State<HomeCard> {
                       context,
                       height: widget._screenDimension.height * .25,
                     ),
-                    imageBuilder: (context, image) => buildPlaceholderImage(
-                      context,
+                    imageBuilder: (context, image) => buildNetworkImage(
+                      image,
                       height: widget._screenDimension.height * .25,
                     ),
                     errorWidget: (context, _, err) => buildPlaceholderImage(
