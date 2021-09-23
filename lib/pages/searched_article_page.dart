@@ -8,7 +8,6 @@ import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
 import 'package:noobs2pro_app/widgets/article_card_small.dart';
-import 'package:noobs2pro_app/widgets/circular_progress_bar.dart';
 import 'package:noobs2pro_app/widgets/exception_graphic_widget.dart';
 import 'package:noobs2pro_app/widgets/shimmers/small_article_card.dart';
 

@@ -12,7 +12,7 @@ class ApiService {
       final url = Uri.https(
         baseUrl,
         allPostsEndpoint,
-        {'per_page': '3', 'offset': '0', '_embed': ''},
+        {'per_page': '100', 'offset': '0', '_embed': ''},
       );
 
       final response = await http.get(url);

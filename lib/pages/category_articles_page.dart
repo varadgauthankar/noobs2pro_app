@@ -28,6 +28,7 @@ class CategoryArticlesPage extends StatefulWidget {
 
 class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
   ArticlesBloc? _articlesBloc;
+  List<Article> _articles = [];
 
   @override
   void initState() {
@@ -54,60 +55,54 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
           ),
         ),
       ),
-      body: BlocProvider(
-        create: (context) => _articlesBloc!,
-        child: BlocConsumer<ArticlesBloc, ArticlesState>(
-          listener: (context, state) {
-            // if (state is ArticlesFetchError) {
-            //   showMySnackBar(context, message: state.error);
-            // }
-          },
-          builder: (context, state) {
-            return buildListOfArticles(screenDimension, state);
-          },
-        ),
-      ),
+      body: buildListOfArticles(screenDimension),
     );
   }
 
-  Widget buildListOfArticles(Size _screenDimension, ArticlesState state) {
-    final HiveService _hiveService = HiveService();
-    return ValueListenableBuilder(
-      valueListenable: _hiveService.categoryArticlesBox.listenable(),
-      builder: (context, Box<Article> box, _) {
-        if (state is ArticlesFetchLoading) {
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(6),
-            itemCount: 12,
-            itemBuilder: (context, index) {
-              return const ShimmerSmallArticleCard();
-            },
-          );
-        } else if (state is ArticlesFetchComplete) {
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(6),
-            itemCount: state.articles.length,
-            itemBuilder: (context, index) {
-              final Article _article = state.articles.elementAt(index);
-              return ArticleCardSmall(
-                _article,
-              );
-            },
-          );
-        } else if (state is ArticlesFetchError) {
-          return const ExceptionGraphic(
-            message: 'Failed to load articles',
-            assetName: 'void.svg',
-          );
-        } else {
-          return const ExceptionGraphic(
-            message: 'Something went wrong',
-            assetName: 'void.svg',
-          );
-        }
-      },
+  Widget buildListOfArticles(Size _screenDimension) {
+    return BlocProvider(
+      create: (context) => _articlesBloc!,
+      child: BlocConsumer<ArticlesBloc, ArticlesState>(
+        listener: (context, state) {
+          if (state is ArticlesFetchComplete) {
+            setState(() {
+              _articles = state.articles;
+            });
+          }
+          if (state is ArticlesFetchError) {
+            showMySnackBar(context, message: state.error);
+          }
+        },
+        builder: (context, state) {
+          if (state is ArticlesFetchLoading) {
+            return ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(6),
+              itemCount: 12,
+              itemBuilder: (context, index) {
+                return const ShimmerSmallArticleCard();
+              },
+            );
+          }
+
+          if (_articles.isNotEmpty) {
+            return ListView.builder(
+              padding: const EdgeInsets.all(6),
+              itemCount: _articles.length,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                final _article = _articles[index];
+                return ArticleCardSmall(_article);
+              },
+            );
+          } else {
+            return const ExceptionGraphic(
+              message: 'No results',
+              assetName: 'void.svg',
+            );
+          }
+        },
+      ),
     );
   }
 }

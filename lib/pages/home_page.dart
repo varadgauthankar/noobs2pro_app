@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:noobs2pro_app/blocs/articles_fetch/bloc/articles_bloc.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/widgets/home_card.dart';
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   final HiveService _hiveService = HiveService();
 
   void _onRefresh() {
-    _refreshController.refreshCompleted();
+    BlocProvider.of<ArticlesBloc>(context).add(FetchArticlesEvent());
   }
 
   @override
@@ -31,7 +33,17 @@ class _HomePageState extends State<HomePage> {
     final Size screenDimension = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: buildListOfArticles(screenDimension),
+      body: BlocListener<ArticlesBloc, ArticlesState>(
+        listener: (context, state) {
+          if (state is ArticlesFetchComplete) {
+            _refreshController.refreshFailed();
+          }
+          if (state is ArticlesFetchError) {
+            _refreshController.refreshFailed();
+          }
+        },
+        child: buildListOfArticles(screenDimension),
+      ),
     );
   }
 
@@ -52,12 +64,15 @@ class _HomePageState extends State<HomePage> {
           return SmartRefresher(
             controller: _refreshController,
             onRefresh: _onRefresh,
+            header: const MaterialClassicHeader(),
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(6),
               itemCount: box.values.length,
               itemBuilder: (context, index) {
-                final Article _article = box.values.toList().elementAt(index);
+                final List<Article> articlesReversed =
+                    box.values.toList().reversed.toList();
+                final Article _article = articlesReversed.elementAt(index);
                 return HomeCard(
                   _article,
                   _screenDimension,

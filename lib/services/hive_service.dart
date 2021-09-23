@@ -10,7 +10,6 @@ class HiveService {
   Box<int> fsavedArticleIdBox = Hive.box<int>(kSavedArticleBox);
 
   Future<void> insertArticle(Article article) async {
-    // await allArticleBox
     await allArticleBox.add(article);
   }
 

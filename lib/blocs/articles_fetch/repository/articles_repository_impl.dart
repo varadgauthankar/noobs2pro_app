@@ -10,14 +10,17 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
 
   @override
   Future<List<Article>> fetchArticles(FirestoreService fireStore) async {
-    await _hiveService.allArticleBox.clear();
     final List<dynamic> ids =
         await fireStore.getSavedArticleIds() as List<dynamic>;
 
     final List<Article> articles = await ApiService.getAllPosts();
 
+    // reversing the list so that every new item is added to top
+    // also reversed again in ui, listView
+    final List<Article> reversedArticlesList = articles.reversed.toList();
+
     // check for new articles and add to box
-    for (final Article article in articles) {
+    for (final Article article in reversedArticlesList) {
       if (_hiveService.allArticleBox.values
           .toList()
           .every((element) => element.id != article.id)) {
@@ -40,17 +43,16 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
 
     final List<Article> articles =
         await ApiService.getPostsBySearchQuery(query);
-
-    await _hiveService.searchArticleBox.clear();
+    final List<Article> newArticles = [];
 
     for (final Article article in articles) {
       if (ids.contains(article.id)) {
-        _hiveService.insertSearchedArticle(article..isSaved = true);
+        newArticles.add(article..isSaved = true);
       } else {
-        _hiveService.insertSearchedArticle(article);
+        newArticles.add(article);
       }
     }
-    return _hiveService.getSearchedArticles();
+    return newArticles;
   }
 
   @override
