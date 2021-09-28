@@ -139,7 +139,7 @@ class _HomeCardState extends State<HomeCard> {
                             _connectivityBloc = ConnectivityBloc()
                               ..add(ListenConnection());
 
-                            if (!FirebaseAuthService().isSignedIn()) {
+                            if (FirebaseAuthService().isSignedIn()) {
                               if (_isInternet) {
                                 widget._article.isSaved != true
                                     ? _bloc!
@@ -157,6 +157,7 @@ class _HomeCardState extends State<HomeCard> {
                                 context,
                                 title: 'Sign in',
                                 subtitle: 'Sign in to save articles',
+                                isSignInBanner: true,
                               );
                             }
 

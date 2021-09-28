@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:noobs2pro_app/constants/strings.dart';
 import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/pages/auth_pages/auth_main_page.dart';
 import 'package:noobs2pro_app/widgets/my_material_banner.dart';
 import 'package:share/share.dart';
 
@@ -29,7 +30,10 @@ ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>
       subTitle: subtitle,
       isSignInBanner: isSignInBanner,
       onButtonPressed: () {
-        ScaffoldMessenger.of(context).clearMaterialBanners();
+        isSignInBanner
+            ? Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const AuthMainPage()))
+            : ScaffoldMessenger.of(context).clearMaterialBanners();
       },
     ),
   );
