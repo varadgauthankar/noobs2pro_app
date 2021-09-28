@@ -3,6 +3,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/article_saving/bloc/article_saving_bloc.dart';
+import 'package:noobs2pro_app/blocs/connectivity/bloc/connectivity_bloc.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/pages/article_apge.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
@@ -28,18 +29,51 @@ class HomeCard extends StatefulWidget {
 class _HomeCardState extends State<HomeCard> {
   final HtmlUnescape unEscapedString = HtmlUnescape();
 
+  ArticleSavingBloc? _bloc;
+  ConnectivityBloc? _connectivityBloc;
+  bool _isInternet = false;
+
+  @override
+  void initState() {
+    _bloc = ArticleSavingBloc(
+        firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '');
+
+    // _connectivityBloc = ConnectivityBloc();
+
+    _connectivityBloc = ConnectivityBloc()..add(ListenConnection());
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ArticleSavingBloc _bloc = ArticleSavingBloc(
-        firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '');
     return BlocProvider(
-      create: (context) => _bloc,
-      child: BlocListener<ArticleSavingBloc, ArticleSavingState>(
-        listener: (context, state) {
-          if (state is ArticleSavingError) {
-            showMySnackBar(context, message: state.error);
-          }
-        },
+      create: (context) => _bloc!,
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<ArticleSavingBloc, ArticleSavingState>(
+            listener: (context, state) {
+              if (state is ArticleSavingError) {
+                showMySnackBar(context, message: state.error);
+              }
+            },
+          ),
+          BlocListener<ConnectivityBloc, ConnectivityState>(
+            listener: (context, state) {
+              if (state is ConnectivityOnline) {
+                setState(() {
+                  _isInternet = true;
+                });
+              }
+              if (state is ConnectivityOffline) {
+                setState(() {
+                  _isInternet = false;
+                });
+                // showMySnackBar(context, message: 'No internet connection');
+              }
+            },
+          ),
+        ],
         child: InkWell(
           onTap: () {
             Navigator.push(
@@ -106,10 +140,16 @@ class _HomeCardState extends State<HomeCard> {
                                 : EvaIcons.bookmarkOutline,
                           ),
                           onPressed: () {
-                            widget._article.isSaved != true
-                                ? _bloc.add(ArticleSaveEvent(widget._article))
-                                : _bloc
-                                    .add(ArticleUnSaveEvent(widget._article));
+                            if (_isInternet) {
+                              widget._article.isSaved != true
+                                  ? _bloc!
+                                      .add(ArticleSaveEvent(widget._article))
+                                  : _bloc!
+                                      .add(ArticleUnSaveEvent(widget._article));
+                            } else {
+                              showMySnackBar(context,
+                                  message: 'No internet connection!');
+                            }
 
                             //TODO: optimise this
                             setState(() {});
