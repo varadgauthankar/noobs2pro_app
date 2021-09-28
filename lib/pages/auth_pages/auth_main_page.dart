@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:noobs2pro_app/constants/strings.dart';
 import 'package:noobs2pro_app/pages/auth_pages/signin_page.dart';
 import 'package:noobs2pro_app/pages/auth_pages/signup_page.dart';
+import 'package:noobs2pro_app/pages/main_page.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
@@ -83,6 +84,22 @@ class _AuthMainPageState extends State<AuthMainPage> {
                         },
                         width: screenSize.width,
                       ),
+                      spacer(height: 12.0),
+                      TextButton(
+                        onPressed: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainPage()),
+                        ),
+                        style: TextButton.styleFrom(
+                          primary: Colors.grey,
+                          textStyle: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        child: const Text("Skip Login"),
+                      )
                     ],
                   )
                 ],

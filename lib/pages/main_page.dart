@@ -103,14 +103,10 @@ class _MainPageState extends State<MainPage> {
                   ScaffoldMessenger.of(context).clearMaterialBanners();
                 }
                 if (state is ConnectivityOffline) {
-                  ScaffoldMessenger.of(context).showMaterialBanner(
-                    myMaterialBanner(
-                      title: 'Offline Mode',
-                      subTitle: 'Connect to internet to save articles',
-                      onButtonPressed: () {
-                        ScaffoldMessenger.of(context).clearMaterialBanners();
-                      },
-                    ),
+                  showMyMaterialBanner(
+                    context,
+                    title: 'Offline Mode',
+                    subtitle: 'Connect to internet to save/load new articles',
                   );
                 }
               },

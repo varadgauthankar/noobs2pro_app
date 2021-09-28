@@ -6,6 +6,7 @@ import 'package:noobs2pro_app/utils/text_styles.dart';
 MaterialBanner myMaterialBanner({
   required String title,
   String? subTitle,
+  required bool isSignInBanner,
   required VoidCallback onButtonPressed,
 }) {
   return MaterialBanner(
@@ -20,7 +21,7 @@ MaterialBanner myMaterialBanner({
         style: categoryItems,
       ),
     ),
-    backgroundColor: kDanger,
+    backgroundColor: isSignInBanner ? kWhite : kDanger,
     actions: [
       IconButton(
         onPressed: onButtonPressed,

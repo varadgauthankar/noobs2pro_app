@@ -107,9 +107,11 @@ class DrawerMenu extends StatelessWidget {
               child: ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 visualDensity: const VisualDensity(vertical: -4),
-                trailing: const Icon(EvaIcons.logOut),
-                title: const Text(
-                  'LOG OUT',
+                trailing: Icon(FirebaseAuthService().isSignedIn()
+                    ? EvaIcons.logOut
+                    : EvaIcons.logIn),
+                title: Text(
+                  FirebaseAuthService().isSignedIn() ? 'SIGN OUT' : 'SIGN IN',
                   style: categoryItems,
                 ),
                 shape: RoundedRectangleBorder(
@@ -121,43 +123,53 @@ class DrawerMenu extends StatelessWidget {
 
                   Navigator.pop(context);
 
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text('Log out?'),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('NO'),
+                  if (FirebaseAuthService().isSignedIn()) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Log out?'),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              FirebaseAuthService().signOut().then(
-                                (_) {
-                                  // HiveService().allArticleBox.clear();
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AuthMainPage(),
-                                    ),
-                                    (route) => false,
-                                  );
-                                },
-                              );
-                            },
-                            child: const Text('YES'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('NO'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                FirebaseAuthService().signOut().then(
+                                  (_) {
+                                    // HiveService().allArticleBox.clear();
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AuthMainPage(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  },
+                                );
+                              },
+                              child: const Text('YES'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AuthMainPage(),
+                      ),
+                      (route) => false,
+                    );
+                  }
                 },
               ),
             ),

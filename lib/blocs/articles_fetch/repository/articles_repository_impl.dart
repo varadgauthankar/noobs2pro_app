@@ -1,5 +1,6 @@
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/services/api_service.dart';
+import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/services/firestore_service.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
 
@@ -10,8 +11,12 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
 
   @override
   Future<List<Article>> fetchArticles(FirestoreService fireStore) async {
-    final List<dynamic> ids =
-        await fireStore.getSavedArticleIds() as List<dynamic>;
+    final List<dynamic> ids;
+    if (FirebaseAuthService().isSignedIn()) {
+      ids = await fireStore.getSavedArticleIds() as List<dynamic>;
+    } else {
+      ids = [];
+    }
 
     final List<Article> articles = await ApiService.getAllPosts();
 
@@ -38,8 +43,12 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
   @override
   Future<List<Article>> fetchArticlesByQuery(FirestoreService fireStore,
       {required String query}) async {
-    final List<dynamic> ids =
-        await fireStore.getSavedArticleIds() as List<dynamic>;
+    final List<dynamic> ids;
+    if (FirebaseAuthService().isSignedIn()) {
+      ids = await fireStore.getSavedArticleIds() as List<dynamic>;
+    } else {
+      ids = [];
+    }
 
     final List<Article> articles =
         await ApiService.getPostsBySearchQuery(query);
@@ -58,8 +67,12 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
   @override
   Future<List<Article>> fetchArticlesByCategory(
       FirestoreService fireStore, int id) async {
-    final List<dynamic> ids =
-        await fireStore.getSavedArticleIds() as List<dynamic>;
+    final List<dynamic> ids;
+    if (FirebaseAuthService().isSignedIn()) {
+      ids = await fireStore.getSavedArticleIds() as List<dynamic>;
+    } else {
+      ids = [];
+    }
 
     final List<Article> articles = await ApiService.getPostsByCategory(id);
     final List<Article> newArticles = [];
@@ -76,8 +89,12 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
 
   @override
   Future<List<Article>> fetchExploreArticles(FirestoreService fireStore) async {
-    final List<dynamic> ids =
-        await fireStore.getSavedArticleIds() as List<dynamic>;
+    final List<dynamic> ids;
+    if (FirebaseAuthService().isSignedIn()) {
+      ids = await fireStore.getSavedArticleIds() as List<dynamic>;
+    } else {
+      ids = [];
+    }
 
     final List<Article> articles = await ApiService.getAllPosts();
 

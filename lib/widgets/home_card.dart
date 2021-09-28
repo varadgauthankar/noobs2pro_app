@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:html_unescape/html_unescape_small.dart';
 import 'package:noobs2pro_app/blocs/article_saving/bloc/article_saving_bloc.dart';
 import 'package:noobs2pro_app/blocs/connectivity/bloc/connectivity_bloc.dart';
 import 'package:noobs2pro_app/models/article.dart';
@@ -10,7 +11,6 @@ import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
 import 'package:noobs2pro_app/utils/text_styles.dart';
-import 'package:html_unescape/html_unescape_small.dart';
 import 'package:noobs2pro_app/widgets/images.dart';
 
 class HomeCard extends StatefulWidget {
@@ -37,10 +37,6 @@ class _HomeCardState extends State<HomeCard> {
   void initState() {
     _bloc = ArticleSavingBloc(
         firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '');
-
-    // _connectivityBloc = ConnectivityBloc();
-
-    _connectivityBloc = ConnectivityBloc()..add(ListenConnection());
 
     super.initState();
   }
@@ -140,15 +136,28 @@ class _HomeCardState extends State<HomeCard> {
                                 : EvaIcons.bookmarkOutline,
                           ),
                           onPressed: () {
-                            if (_isInternet) {
-                              widget._article.isSaved != true
-                                  ? _bloc!
-                                      .add(ArticleSaveEvent(widget._article))
-                                  : _bloc!
-                                      .add(ArticleUnSaveEvent(widget._article));
+                            _connectivityBloc = ConnectivityBloc()
+                              ..add(ListenConnection());
+
+                            if (!FirebaseAuthService().isSignedIn()) {
+                              if (_isInternet) {
+                                widget._article.isSaved != true
+                                    ? _bloc!
+                                        .add(ArticleSaveEvent(widget._article))
+                                    : _bloc!.add(
+                                        ArticleUnSaveEvent(widget._article));
+                              } else {
+                                showMySnackBar(
+                                  context,
+                                  message: 'No internet connection!',
+                                );
+                              }
                             } else {
-                              showMySnackBar(context,
-                                  message: 'No internet connection!');
+                              showMyMaterialBanner(
+                                context,
+                                title: 'Sign in',
+                                subtitle: 'Sign in to save articles',
+                              );
                             }
 
                             //TODO: optimise this

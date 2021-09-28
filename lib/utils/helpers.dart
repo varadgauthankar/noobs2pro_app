@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:noobs2pro_app/constants/strings.dart';
 import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/widgets/my_material_banner.dart';
 import 'package:share/share.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMySnackBar(
@@ -11,6 +12,25 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMySnackBar(
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
+    ),
+  );
+}
+
+ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>
+    showMyMaterialBanner(
+  BuildContext context, {
+  required String title,
+  required String subtitle,
+  bool isSignInBanner = false,
+}) {
+  return ScaffoldMessenger.of(context).showMaterialBanner(
+    myMaterialBanner(
+      title: title,
+      subTitle: subtitle,
+      isSignInBanner: isSignInBanner,
+      onButtonPressed: () {
+        ScaffoldMessenger.of(context).clearMaterialBanners();
+      },
     ),
   );
 }
