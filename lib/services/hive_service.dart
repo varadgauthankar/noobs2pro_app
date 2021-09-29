@@ -8,6 +8,7 @@ class HiveService {
   Box<Article> categoryArticlesBox = Hive.box<Article>(kCategoryArticlesBox);
   Box<Article> savedArticlesBox = Hive.box<Article>(kSavedArticlesObjectBox);
   Box<int> fsavedArticleIdBox = Hive.box<int>(kSavedArticleBox);
+  Box<bool> isLoggedInSkippedBox = Hive.box<bool>(kIsLoggedIn);
 
   Future<void> insertArticle(Article article) async {
     await allArticleBox.add(article);
@@ -63,5 +64,18 @@ class HiveService {
 
   Future<void> unSaveArticle(Article article, dynamic key) async {
     await allArticleBox.put(key, article..isSaved = false);
+  }
+
+  // true if logged in is skipped
+  void loggedInSkipped() {
+    isLoggedInSkippedBox.put(0, true);
+  }
+
+  bool? get isLoggedInSkipped {
+    return isLoggedInSkippedBox.get(0);
+  }
+
+  void loggedInNotSkipped() {
+    isLoggedInSkippedBox.put(0, false);
   }
 }

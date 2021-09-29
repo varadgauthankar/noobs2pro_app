@@ -30,10 +30,15 @@ ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>
       subTitle: subtitle,
       isSignInBanner: isSignInBanner,
       onButtonPressed: () {
-        isSignInBanner
-            ? Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const AuthMainPage()))
-            : ScaffoldMessenger.of(context).clearMaterialBanners();
+        if (isSignInBanner) {
+          ScaffoldMessenger.of(context).clearMaterialBanners();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const AuthMainPage()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).clearMaterialBanners();
+        }
       },
     ),
   );

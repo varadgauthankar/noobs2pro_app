@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:noobs2pro_app/services/hive_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

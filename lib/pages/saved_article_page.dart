@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:noobs2pro_app/models/article.dart';
+import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
 import 'package:noobs2pro_app/widgets/article_card_small.dart';
 import 'package:noobs2pro_app/widgets/exception_graphic_widget.dart';
@@ -41,9 +42,17 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
       valueListenable: _hiveService.allArticleBox.listenable(),
       builder: (context, box, _) {
         if (_getSavedArticlesFromAllArticleBox(box).isNotEmpty) {
-          return _buildArticles(box);
+          if (FirebaseAuthService().getCurrentUser() != null) {
+            return _buildArticles(box);
+          } else {
+            return _notSignedInGraphic();
+          }
         } else {
-          return _noArticlesGraphic();
+          if (FirebaseAuthService().getCurrentUser() != null) {
+            return _noArticlesGraphic();
+          } else {
+            return _notSignedInGraphic();
+          }
         }
       },
     );
@@ -69,6 +78,13 @@ class _SavedArticlePageState extends State<SavedArticlePage> {
   Widget _noArticlesGraphic() {
     return const ExceptionGraphic(
       message: 'No Saved Articles yet!',
+      assetName: 'no_article.svg',
+    );
+  }
+
+  Widget _notSignedInGraphic() {
+    return const ExceptionGraphic(
+      message: 'Sign in to save articles',
       assetName: 'no_article.svg',
     );
   }

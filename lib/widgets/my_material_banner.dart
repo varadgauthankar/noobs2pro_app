@@ -23,13 +23,13 @@ MaterialBanner myMaterialBanner({
     ),
     backgroundColor: isSignInBanner ? kWhite : kDanger,
     actions: [
-      if (isSignInBanner)
+      if (!isSignInBanner)
         IconButton(
           onPressed: onButtonPressed,
           icon: const Icon(EvaIcons.checkmark),
         )
       else
-        TextButton(onPressed: () {}, child: const Text('SIGN IN')),
+        TextButton(onPressed: onButtonPressed, child: const Text('SIGN IN')),
     ],
   );
 }

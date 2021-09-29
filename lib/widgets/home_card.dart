@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:noobs2pro_app/blocs/article_saving/bloc/article_saving_bloc.dart
 import 'package:noobs2pro_app/blocs/connectivity/bloc/connectivity_bloc.dart';
 import 'package:noobs2pro_app/models/article.dart';
 import 'package:noobs2pro_app/pages/article_apge.dart';
+import 'package:noobs2pro_app/services/connectivity.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
 import 'package:noobs2pro_app/utils/colors.dart';
 import 'package:noobs2pro_app/utils/helpers.dart';
@@ -31,13 +33,24 @@ class _HomeCardState extends State<HomeCard> {
 
   ArticleSavingBloc? _bloc;
   ConnectivityBloc? _connectivityBloc;
-  bool _isInternet = false;
+  bool? _isInternet;
+
+  Future<bool> isInternetConnected() async {
+    final res = await ConnectivityService().isConnected();
+    return res;
+  }
 
   @override
   void initState() {
     _bloc = ArticleSavingBloc(
         firebaseUserId: FirebaseAuthService().getCurrentUserUid() ?? '');
+    _connectivityBloc = ConnectivityBloc()..add(ListenConnection());
 
+    isInternetConnected().then((value) {
+      setState(() {
+        _isInternet = value;
+      });
+    });
     super.initState();
   }
 
@@ -136,11 +149,8 @@ class _HomeCardState extends State<HomeCard> {
                                 : EvaIcons.bookmarkOutline,
                           ),
                           onPressed: () {
-                            _connectivityBloc = ConnectivityBloc()
-                              ..add(ListenConnection());
-
                             if (FirebaseAuthService().isSignedIn()) {
-                              if (_isInternet) {
+                              if (_isInternet!) {
                                 widget._article.isSaved != true
                                     ? _bloc!
                                         .add(ArticleSaveEvent(widget._article))

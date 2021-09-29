@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:noobs2pro_app/services/firebase_auth.dart';
+import 'package:noobs2pro_app/services/hive_service.dart';
 
 part 'sign_in_state.dart';
 part 'sign_in_event.dart';
@@ -19,6 +20,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           event.email!,
           event.password!,
         );
+        HiveService().loggedInNotSkipped();
         yield SignInCompleteState(user!);
       } on FirebaseException catch (e) {
         yield SignInFailedState(e.code.replaceAll('-', ' '));

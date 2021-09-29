@@ -22,6 +22,7 @@ void main() async {
   await Hive.openBox<Article>(kCategoryArticlesBox);
   await Hive.openBox<Article>(kSavedArticlesObjectBox);
   await Hive.openBox<int>(kThemeBox);
+  await Hive.openBox<bool>(kIsLoggedIn);
   runApp(MyApp());
 }
 
