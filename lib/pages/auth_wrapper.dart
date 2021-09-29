@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noobs2pro_app/blocs/firebase_auth/auth/auth_bloc.dart';
 import 'package:noobs2pro_app/pages/pages.dart';
+import 'package:noobs2pro_app/pages/splash_screen.dart';
 import 'package:noobs2pro_app/services/hive_service.dart';
 
 class AuthWrapper extends StatelessWidget {
@@ -19,10 +20,7 @@ class AuthWrapper extends StatelessWidget {
 
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if (state is AuthInitialState) {
-          //TODo : replace with splash screen
-          return const Text('splash screem');
-        } else if (state is AuthAuthenticatedState) {
+       if (state is AuthAuthenticatedState) {
           return const MainPage();
         } else {
           if (_isLoggedInSkipped()) {
