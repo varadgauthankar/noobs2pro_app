@@ -29,16 +29,15 @@ ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>
       title: title,
       subTitle: subtitle,
       isSignInBanner: isSignInBanner,
-      onButtonPressed: () {
-        if (isSignInBanner) {
-          ScaffoldMessenger.of(context).clearMaterialBanners();
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const AuthMainPage()),
-          );
-        } else {
-          ScaffoldMessenger.of(context).clearMaterialBanners();
-        }
+      onDismissPressed: () {
+        ScaffoldMessenger.of(context).clearMaterialBanners();
+      },
+      onSignInButtonPressed: () {
+        ScaffoldMessenger.of(context).clearMaterialBanners();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AuthMainPage()),
+        );
       },
     ),
   );

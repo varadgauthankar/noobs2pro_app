@@ -7,29 +7,50 @@ MaterialBanner myMaterialBanner({
   required String title,
   String? subTitle,
   required bool isSignInBanner,
-  required VoidCallback onButtonPressed,
+  VoidCallback? onSignInButtonPressed,
+  VoidCallback? onDismissPressed,
 }) {
   return MaterialBanner(
-    leading: const Icon(EvaIcons.alertCircleOutline),
-    content: ListTile(
-      title: Text(
-        title,
-        style: articleTitle,
-      ),
-      subtitle: Text(
-        subTitle ?? '',
-        style: categoryItems,
+    leading: Icon(EvaIcons.alertCircleOutline,
+        color: isSignInBanner ? kWhite : kBlack),
+    content: Padding(
+      padding: EdgeInsets.symmetric(vertical: isSignInBanner ? 0.0 : 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style:
+                articleTitle.copyWith(color: isSignInBanner ? kWhite : kBlack),
+          ),
+          Text(
+            subTitle ?? '',
+            style:
+                categoryItems.copyWith(color: isSignInBanner ? kWhite : kBlack),
+          ),
+        ],
       ),
     ),
-    backgroundColor: isSignInBanner ? kWhite : kDanger,
+    backgroundColor: isSignInBanner ? kPrimaryColor : kDanger,
     actions: [
       if (!isSignInBanner)
         IconButton(
-          onPressed: onButtonPressed,
-          icon: const Icon(EvaIcons.checkmark),
+          onPressed: onDismissPressed,
+          icon: Icon(
+            EvaIcons.checkmark,
+            color: isSignInBanner ? kWhite : kBlack,
+          ),
         )
       else
-        TextButton(onPressed: onButtonPressed, child: const Text('SIGN IN')),
+        TextButton(
+          onPressed: onSignInButtonPressed,
+          child: const Text('SIGN IN'),
+        ),
+      if (isSignInBanner)
+        TextButton(
+          onPressed: onDismissPressed,
+          child: const Text('NOT NOW'),
+        )
     ],
   );
 }
